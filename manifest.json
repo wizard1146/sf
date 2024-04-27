@@ -1,0 +1,25 @@
+{
+  "short_name": "SF",
+  "name": "SF",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "id": "/sf?source=pwa",
+  "start_url": "/sf?source=pwa",
+  "background_color": "#0D1835",
+  "display": "fullscreen",
+  "scope": "/sf",
+  "theme_color": "#0D1835",
+  "shortcuts": [
+  ],
+  "description": "PWA for SF"
+}
