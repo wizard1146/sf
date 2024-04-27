@@ -216,35 +216,38 @@ let Joy = (function() {
 
     /* Touch functions */
     touch(e) {
+      this.pressed = 1
       this.toucher = e.targetTouches[0].identifier
     }
     touching(e) {
       // Failure conditions
-      if (!this.toucher) return
-      if (!e.targetTouches[0].target == this.canvas) return
-
-      this.rx = e.targetTouches[0].pageX
-      this.ry = e.targetTouches[0].pageY
-      // Handle offset
-      if (this.canvas.offsetParent.tagName.toUpperCase() === 'BODY') {
-        this.rx -= this.canvas.offsetLeft
-        this.ry -= this.canvas.offsetTop
-      } else {
-        this.rx -= this.canvas.offsetParent.offsetLeft
-        this.ry -= this.canvas.offsetParent.offsetTop
+      // if (!this.toucher) return
+      // if (!e.targetTouches[0].target == this.canvas) return
+      if (this.pressed == 1 && e.targetTouches[0].target === this.canvas) {
+        this.rx = e.targetTouches[0].pageX
+        this.ry = e.targetTouches[0].pageY
+        // Handle offset
+        if (this.canvas.offsetParent.tagName.toUpperCase() === 'BODY') {
+          this.rx -= this.canvas.offsetLeft
+          this.ry -= this.canvas.offsetTop
+        } else {
+          this.rx -= this.canvas.offsetParent.offsetLeft
+          this.ry -= this.canvas.offsetParent.offsetTop
+        }
+        // Place limitations
+        if (this.rx < this.ir) { this.rx = this.max }
+        if (this.ry < this.ir) { this.ry = this.max }
+        if (this.rx + this.ir > this.canvas.width ) { this.rx = this.canvas.width  - this.max }
+        if (this.ry + this.ir > this.canvas.height) { this.ry = this.canvas.height - this.max }
+        // Render
+        this.render()
+        // Callback
+        this.callback(this.payload())
       }
-      // Place limitations
-      if (this.rx < this.ir) { this.rx = this.max }
-      if (this.ry < this.ir) { this.ry = this.max }
-      if (this.rx + this.ir > this.canvas.width ) { this.rx = this.canvas.width  - this.max }
-      if (this.ry + this.ir > this.canvas.height) { this.ry = this.canvas.height - this.max }
-      // Render
-      this.render()
-      // Callback
-      this.callback(this.payload())
     }
     touched(e) {
       if (e.changedTouches[0].identifier !== this.toucher) return
+      this.pressed = 0
       // Return to the origin
       if (this.auto_return) { 
         this.rx = this.ipx
