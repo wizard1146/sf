@@ -326,6 +326,11 @@ sf.css = (function() {
     #${s_hud.id_sector} .value {
       line-height: calc(${s_hud.sector_size} * 0.97);
     }
+    #${s_hud.id_fps} {
+      right  : ${s_hud.fps_offset_x};
+      top    : ${s_hud.fps_offset_y};
+      opacity: ${s_hud.fps_opacity};
+    }
     `,
   ]
   

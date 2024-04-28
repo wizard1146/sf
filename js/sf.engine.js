@@ -5,6 +5,7 @@ sf.engine = (function() {
   let qset       = sf.utilities.qselect
   let raiseEvent = sf.utilities.raiseEvent
   let uuid       = sf.utilities.uuid
+  let clone      = sf.utilities.clone
   
   let Splash     = sf.splash.Splash
   
@@ -28,14 +29,15 @@ sf.engine = (function() {
   let levelData, splash, splasher;
   
   // Main data output
-  let data = {
+  let data;
+  let dataTemplate = {
     hero    : {},
     units   : {},
     sectors : {},
     settings: {},
   }
   /* Computational variables */
-
+  let snt = settings.game.sector_name_template
   
   /* Update Functions */
   let updateHero = function() {
@@ -71,10 +73,24 @@ sf.engine = (function() {
       inversion = true
     }
     
-    /* Update the animation spec */
+    /* Updates */
     if (changed) {
-      
+      // Update the hero's sector, and generate unmade adjacent tiles
+      let osn = hero.sector.name
       hero.sector = hero.getSector()
+      if (osn != hero.sector.name) {
+        // generate unmade neighbour tiles
+        let missing = data.sectors[hero.sector.name].getUnmadeNeighbours( data.sectors )
+        if (missing.length) {
+          missing.forEach(tile => {
+            let m = tile.match(snt)
+            let x = parseInt(m[1])
+            let y = parseInt(m[2])
+            let t = new Tile( x, y, settings.game.size_sector, {mx: x, my: y, collider: collider})
+            data.sectors[t.k] = t
+          })
+        }
+      }
     
       let k = hero.a.keys.walk
       if (inversion) {
@@ -125,6 +141,9 @@ sf.engine = (function() {
     
     // get level data
     levelData = LEVELS[`001`]
+    
+    // generate local map
+    generateMap()
   
     // Start listening to Comptroller ticks
     main.addEventListener( events.comptroller.tick, tick )
@@ -172,12 +191,7 @@ sf.engine = (function() {
     }
   }
   
-  let resetData = function() {
-    data = {
-      hero : {},
-      units: {},
-    }
-  }
+  let resetData = function() { data = clone(dataTemplate) }
   
   let tick = function(e) {
     updateHero()
@@ -232,7 +246,7 @@ sf.engine = (function() {
       for (var j = 0; j < count; j++) {
         my = j - half
         
-        let tile = new Tile({mx: mx, my: my, collider: collider})
+        let tile = new Tile(mx, my, settings.game.size_sector, {mx: mx, my: my, collider: collider})
         data.sectors[tile.k] = tile
       }
     }

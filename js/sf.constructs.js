@@ -35,7 +35,8 @@ sf.constructs = (function() {
   class Artefact {
     constructor(k, options) {
       // Key, X, Y, Type, Seed
-      this.id = uuid()
+      this.id  = uuid()
+      this.age = performance.now()
       this.k = k
       let args = {
         x: 0,
@@ -125,6 +126,11 @@ sf.constructs = (function() {
       n.splice(n.indexOf(this.key), 1)
       return n
     }
+    getUnmadeNeighbours(knownSectors) {
+      let n = this.getNeighbours()
+      // https://stackoverflow.com/a/72315001
+      return n.filter((sn) => !Object.keys(knownSectors).find((nsn) => sn === nsn))
+    }
   }
 
   class Actor extends Movable {
@@ -165,7 +171,7 @@ sf.constructs = (function() {
       let bottom = m( my, ss )
       let top    = bottom + 2*ss - 1
       
-      return {sx: mx, sy: my, left: left, bottom: bottom, right: right, top: top}
+      return {name: `sector_MX${mx}_MY${my}`, sx: mx, sy: my, left: left, bottom: bottom, right: right, top: top}
     }
   }
   

@@ -63,6 +63,7 @@ sf.settings = (function() {
       count_sector :  5,
       initial_x     : 0,
       initial_y     : 0,
+      sector_name_template: /sector_MX(-?\d+)_MY(-?\d+)/,
     },
     canvas: {
       // IDs
@@ -109,6 +110,10 @@ sf.settings = (function() {
       coordinatesXY_xWidth  : `calc(180px + 2ch + 2ch)`,
       coordinatesXY_xBottom : `calc(180px - 2.1ch)`,
       coordinatesXY_xLeft   : `0px`,
+      // FPS
+      fps_offset_x  : `1.44ch`,
+      fps_offset_y  : `0.33ch`,
+      fps_opacity   : `0.44`,
     },
     input: {
       id_js_dir   : `sfi-js-dir`,

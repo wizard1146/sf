@@ -20,6 +20,7 @@ sf.ux = (function() {
   let state, substate, showX, showY;
   let js_dir, js_aim, hud_main;
   let jsDir, jsAim, hudX, hudY, hudSector, hudEngineThrust, hudFPS;
+  let clock;
   
   /* Computational variables */
 
@@ -39,6 +40,8 @@ sf.ux = (function() {
       submain = g.submain
       canvas  = g.canvas
       mmenu   = g.mmenu
+      
+      clock   = sf.comptroller.clock()
       
       /* Comptroller Instructions */
       main.addEventListener( events.comptroller.title, renderTitle )
@@ -69,6 +72,7 @@ sf.ux = (function() {
     `, submain)
     hudX = qset( `#${settings.hud.id_x} .value` )
     hudY = qset( `#${settings.hud.id_y} .value` )
+    hudFPS = qset( `#${settings.hud.id_fps} .value` )
     hudSector = qset( `#${settings.hud.id_sector} .value` )
   }
   
@@ -148,7 +152,8 @@ sf.ux = (function() {
     let data = sf.engine.data()
     if (hudX) hudX.textContent = (data.hero.x / settings.hud.coordinatesXY_refactor).toFixed()
     if (hudY) hudY.textContent = (data.hero.y / settings.hud.coordinatesXY_refactor).toFixed()
-    if (hudSector) hudSector.textContent = (data.hero.sector.sx + ',' + data.hero.sector.sy)
+    if (hudFPS) hudFPS.textContent = clock.fps().toFixed(1)
+    if (hudSector) hudSector.textContent = (data.hero.sector.sx + ',' + data.hero.sector.sy) // + '-' + Object.keys(data.sectors).length
   }
   
   return {
