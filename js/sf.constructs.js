@@ -154,7 +154,7 @@ sf.constructs = (function() {
        
       this.sector = this.getSector( settings.game.initial_x, settings.game.initial_y )
     }
-    getSector( x, y, ss = settings.game.size_sector ) {
+    getSector( x = this.x, y = this.y, ss = settings.game.size_sector ) {
       let k = function(input, sectorSize) { return Math.floor((input - sectorSize) / (2 * sectorSize)) + 1 }
       let m = function(input, sectorSize) { return (2*input - 1) * sectorSize }
       

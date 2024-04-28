@@ -73,6 +73,9 @@ sf.engine = (function() {
     
     /* Update the animation spec */
     if (changed) {
+      
+      hero.sector = hero.getSector()
+    
       let k = hero.a.keys.walk
       if (inversion) {
         if (magnitude > settings.game.run_threshold) {
