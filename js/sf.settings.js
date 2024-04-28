@@ -55,7 +55,8 @@ sf.settings = (function() {
     game: {
       // Settings
       fps           : 60,
-      size_unit     : 24,
+      size_unit     : 47,
+      player_model  : `SRB-001-flare-2`,
       speed_limiter : 11.1,
       speed_refactor: 1,
       

@@ -68,6 +68,8 @@ let raster = new Image()
     raster.src = `assets/raster.png`
 
 sf.library.register(`SRB-001-flare-2`, {
+  width : 280,
+  height: 400,
   instructions: [
     {
       fill: `rgba( 241, 241, 241, 0.94 )`,
