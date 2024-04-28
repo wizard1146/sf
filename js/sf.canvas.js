@@ -5,6 +5,7 @@ sf.canvas = (function() {
   let qset       = sf.utilities.qselect
   let raiseEvent = sf.utilities.raiseEvent
   let uuid       = sf.utilities.uuid
+  let libRender  = sf.library.render
   let season     = sf.season_001
   let inject     = function(str, tar) { var t = tar ? tar : body; t.insertAdjacentHTML('beforeend', str) }
 
@@ -162,11 +163,18 @@ sf.canvas = (function() {
     // clear
     ctx.clearRect( 0, 0, canvas.width, canvas.height )
     
-    // render hero
-    renderHero( data )
-    
     // render grid
     renderGrid( data )
+    
+    // render hero
+    // renderHero( data )
+    
+    let targetSize = 51
+    let scaling    = targetSize/400
+    libRender( canvas, [
+     { instruction: `translate`, args: [ transform.left, transform.top ] },
+     { instruction: `rotate`, args: [ hero.r ] },
+    ], sf.library.get(`SRB-001-flare-2`).instructions, [280/2 * scaling, 400/2 * scaling] )
   }
   
   let loadModel = async function(e) {
