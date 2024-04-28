@@ -52,11 +52,19 @@ sf.settings = (function() {
       settings_header_color      : `rgba( 181, 184, 203, 0.78 )`,
       settings_header_line_height: `3.4ch`,
     },
+    engine: {
+      garbage_tile_age: 360000,
+    },
     game: {
       // Settings
       fps           : 60,
       size_unit     : 47,
-      player_model  : `SRB-001-flare-2`,
+      player_model  : `SRB-001-flare-0`,
+      player_models : [
+        {velocity: 85, model: `SRB-001-flare-2`},
+        {velocity: 40, model: `SRB-001-flare-1`},
+        {velocity:  0, model: `SRB-001-flare-0`},
+      ],
       speed_limiter : 11.1,
       speed_refactor: 1,
       

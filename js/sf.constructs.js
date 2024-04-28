@@ -109,6 +109,7 @@ sf.constructs = (function() {
       this.items           = {}
 
       this.neighbours      = this.getNeighbours()
+      this.contents = {}
     }
 
     getNeighbours() {
@@ -123,7 +124,7 @@ sf.constructs = (function() {
            n.push(`sector_MX${j}_MY${i}`)
         }
       }
-      n.splice(n.indexOf(this.key), 1)
+      n.splice(n.indexOf(this.k), 1)
       return n
     }
     getUnmadeNeighbours(knownSectors) {
@@ -142,6 +143,12 @@ sf.constructs = (function() {
           r: 0,
           x: 0,
           y: 0,
+        },
+        xv: {
+          m: 0,
+          r: 0,
+          x: 0,
+          y: 0,
         }
       }
       Object.entries(args).forEach(([k,v],i) => {
@@ -151,6 +158,14 @@ sf.constructs = (function() {
           this[k] = v
         }
       })
+    }
+    resetVelocity() {
+      this.v = {
+        m: 0,
+        r: 0,
+        x: 0,
+        y: 0,
+      }
     }
   }
   

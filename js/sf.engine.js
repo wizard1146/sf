@@ -38,6 +38,7 @@ sf.engine = (function() {
   }
   /* Computational variables */
   let snt = settings.game.sector_name_template
+  let sga = settings.engine.garbage_tile_age
   
   /* Update Functions */
   let updateHero = function() {
@@ -106,6 +107,19 @@ sf.engine = (function() {
     } else {
       hero.a.key = hero.a.keys.idle
     }
+    // Magnitude changes
+    if (hero.xv.m != hero.v.m) {
+      for (var i = 0; i < hero.meta.player_models.length; i++) {
+        let f = hero.meta.player_models[i]
+        if (hero.v.m >= f.velocity) {
+          hero.meta.player_model = f.model
+          break
+        }
+      }
+    }
+    
+    // save
+    hero.xv = clone(hero.v)
   }
   
   // Initialisation listener
@@ -195,6 +209,7 @@ sf.engine = (function() {
   
   let tick = function(e) {
     updateHero()
+    garbage()
   }
   
   let loadLevel = function(levelData) {
@@ -202,6 +217,8 @@ sf.engine = (function() {
     
     // generate player
     let datum  = UNITS['player'] // MODIFY
+        datum.player_model  = settings.game.player_model
+        datum.player_models = settings.game.player_models
     // grab Player's start position
     if (levelData.startPosition) { datum.pos = levelData.startPosition }
     // generate Player
@@ -250,6 +267,19 @@ sf.engine = (function() {
         data.sectors[tile.k] = tile
       }
     }
+  }
+  
+  let garbage = function() {
+    let now = performance.now()
+    let m   = data.hero.sector.name
+    let n   = data.sectors[m].getNeighbours()
+    
+    Object.entries(data.sectors).filter(([k,v],i) => (now - v.age) > sga).forEach(([k,v], i) => {
+      if (Object.keys(v.contents).length <= 0 && m != v.name && n.indexOf(k) == -1) {
+        console.log(`[Garbage Collection]: deleting sector ${k}`)
+        delete data.sectors[k]
+      }
+    })
   }
 
   return {

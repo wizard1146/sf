@@ -168,7 +168,7 @@ sf.canvas = (function() {
     renderGrid( data )
     
     // render hero
-    let fighter      = libGet( settings.game.player_model )
+    let fighter      = libGet( hero.meta.player_model )
     let instructions = fighter.instructions
     let targetSize   = settings.game.size_unit
     let scaling      = targetSize/fighter.height
