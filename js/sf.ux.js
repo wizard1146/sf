@@ -54,9 +54,6 @@ sf.ux = (function() {
   }
   
   let renderHUD = function() {
-    let x = `${settings.hud.class_coords} absolute syne-mono text-right text-grey bottom-left`
-    let y = `${settings.hud.class_coords} absolute syne-mono text-right text-grey`
-    let s = `absolute syne-mono text-center text-grey`
     inject(`
       <div id="${settings.hud.id_main}" class="absolute fullscreen center no-pointer no-select">
         <div id="${settings.hud.id_xyz}" class="absolute top-right hidden">
@@ -65,9 +62,10 @@ sf.ux = (function() {
           <!-- <div id="${settings.hud.id_xyz}-Z"><div class="label">Z</div><div class="value"></div></div> -->
         </div>
         <div id="${settings.hud.id_fps}" class="absolute top-right syne-mono text-grey"><div class="value"></div></div>
-        <div id="${settings.hud.id_x}" class="${x}"><div class="value"></div></div>
-        <div id="${settings.hud.id_y}" class="${y}"><div class="value"></div></div>
-        <div id="${settings.hud.id_sector}" class="${s}"><div class="value"></div></div>
+        <div id="${settings.hud.id_x}" class="${settings.hud.class_coords} absolute syne-mono text-right text-grey bottom-left"><div class="value"></div></div>
+        <div id="${settings.hud.id_y}" class="${settings.hud.class_coords} absolute syne-mono text-right text-grey"><div class="value"></div></div>
+        <div id="${settings.hud.id_sector}" class="circle absolute syne-mono text-center text-grey"><div class="value"></div></div>
+        <div id="${settings.hud.id_rotary}" class="circle absolute bottom-right syne-mono text-grey"><div class="value"></div></div>
       </div>
     `, submain)
     hudX = qset( `#${settings.hud.id_x} .value` )
@@ -153,6 +151,9 @@ sf.ux = (function() {
     if (hudX) hudX.textContent = (data.hero.x / settings.hud.coordinatesXY_refactor).toFixed()
     if (hudY) hudY.textContent = (data.hero.y / settings.hud.coordinatesXY_refactor).toFixed()
     if (hudFPS) hudFPS.textContent = clock.fps().toFixed(1)
+    if (hudFPS) {
+      hudFPS.textContent = data.hero.vr - data.hero.r
+    }
     if (hudSector) hudSector.textContent = (data.hero.sector.sx + ',' + data.hero.sector.sy) // + '-' + Object.keys(data.sectors).length
   }
   

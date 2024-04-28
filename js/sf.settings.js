@@ -58,7 +58,7 @@ sf.settings = (function() {
     game: {
       // Settings
       fps           : 60,
-      size_unit     : 36, // 47,
+      size_unit     : 36,
       player_model  : `SRB-001-flare-0`,
       player_models : [
         {velocity: 85, model: `SRB-001-flare-2`},
@@ -67,6 +67,7 @@ sf.settings = (function() {
       ],
       speed_limiter : 11.1,
       speed_refactor: 1,
+      speed_rotation_limit: 3.1/360 * Math.PI * 2,
       
       size_sector   : 500,
       count_sector :  5,
@@ -103,6 +104,7 @@ sf.settings = (function() {
       id_y          : `sfh-y`,
       id_z          : `sfh-z`,
       id_sector     : `sfh-sector`,
+      id_rotary     : `sfh-rotary`,
       class_coords  : `sfh-coordinates`,
       // HUD
       // Sector
@@ -123,6 +125,9 @@ sf.settings = (function() {
       fps_offset_x  : `1.44ch`,
       fps_offset_y  : `0.33ch`,
       fps_opacity   : `0.44`,
+      // Rotary
+      rotary_border : `1px dashed rgba( 141, 141, 169, 0.33 )`,
+      rotary_opacity: `0.4`,
     },
     input: {
       id_js_dir   : `sfi-js-dir`,

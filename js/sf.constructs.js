@@ -149,7 +149,8 @@ sf.constructs = (function() {
           r: 0,
           x: 0,
           y: 0,
-        }
+        },
+        vr: 0,
       }
       Object.entries(args).forEach(([k,v],i) => {
         if (options && options[k]) {

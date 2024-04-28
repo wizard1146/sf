@@ -321,7 +321,6 @@ sf.css = (function() {
       height : ${s_hud.sector_size};
       border : ${s_hud.sector_border};
       opacity: ${s_hud.sector_opacity};
-      border-radius: 50%;
     }
     #${s_hud.id_sector} .value {
       line-height: calc(${s_hud.sector_size} * 0.97);
@@ -330,6 +329,16 @@ sf.css = (function() {
       right  : ${s_hud.fps_offset_x};
       top    : ${s_hud.fps_offset_y};
       opacity: ${s_hud.fps_opacity};
+    }
+    #${s_hud.id_rotary} {
+      width     : ${s_input.js_size};
+      height    : ${s_input.js_size};
+      max-width : ${s_input.js_size_max};
+      max-height: ${s_input.js_size_max};
+      bottom    : ${s_input.js_offset_bottom};
+      right     : ${s_input.js_offset_right};
+      border    : ${s_hud.rotary_border};
+      opacity   : ${s_hud.rotary_opacity};
     }
     `,
   ]

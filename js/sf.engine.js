@@ -50,6 +50,8 @@ sf.engine = (function() {
     
     hero.deltaX = hero.v.x / settings.game.speed_limiter
     hero.deltaY = hero.v.y / settings.game.speed_limiter
+    hero.deltaRotation = hero.vr - hero.r
+    // console.log(hero.vr, hero.r)
     
     // resolve deltas
     if (hero.deltaX != 0) {
@@ -63,6 +65,10 @@ sf.engine = (function() {
       changed = true
     }
     if (hero.deltaRotation != 0) {
+      let de = (hero.deltaRotation + Math.PI) % (2*Math.PI) - Math.PI
+      
+      hero.r += -1 * (de > 0 ? -1 : 1) * Math.min( settings.game.speed_rotation_limit, Math.abs(de) )
+      hero.r  = hero.r % (2 * Math.PI)
       hero.deltaRotation = 0
       changed = true
     }
@@ -201,7 +207,8 @@ sf.engine = (function() {
         r:  payload.r,
       }
     } else if (payload.wh == 'aim') {
-      data.hero.r = payload.r
+      // data.hero.r = payload.r
+      data.hero.vr = payload.r
     }
   }
   
