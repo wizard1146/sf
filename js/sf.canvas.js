@@ -186,7 +186,9 @@ sf.canvas = (function() {
       uuid : uuid(),
       image: new Image(),
     }
+    raiseEvent( canvas, events.canvas.unit_loaded, unit )
     
+    /*
     unit.image.src = `assets/arrow.png`
     
     unit.image.onload = function() {
@@ -199,6 +201,7 @@ sf.canvas = (function() {
     if (datum.isPlayer) {
       player = unit
     }
+    */
     
     /*
     let datum = e.detail
