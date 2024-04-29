@@ -68,6 +68,7 @@ sf.settings = (function() {
         {velocity: -85, model: `reverse_02`},
       ],
       speed_limiter : 11.1,
+      speed_reverse : 0.83,
       speed_refactor: 1,
       speed_rotation_limit: 3.1/360 * Math.PI * 2,
       

@@ -48,8 +48,18 @@ sf.engine = (function() {
     let magnitude = hero.v.m
     let rotation  = hero.v.r
     
-    hero.deltaX = hero.v.x / settings.game.speed_limiter
-    hero.deltaY = hero.v.y / settings.game.speed_limiter
+    // estimate inversion
+    let inversion = false
+    let dg = hero.v.r - hero.r
+    let dh = dg == 0 ? 0 : (dg + Math.PI) % (2*Math.PI) - Math.PI
+    if ( -settings.game.forward_angle <= dh && dh <= settings.game.forward_angle ) {
+      inversion = false
+    } else {
+      inversion = true
+    }
+    
+    hero.deltaX = hero.v.x / settings.game.speed_limiter * (inversion ? settings.game.speed_reverse : 1)
+    hero.deltaY = hero.v.y / settings.game.speed_limiter * (inversion ? settings.game.speed_reverse : 1)
     hero.deltaRotation = hero.vr - hero.r
     let de = hero.deltaRotation == 0 ? 0 : (hero.deltaRotation + Math.PI) % (2*Math.PI) - Math.PI
     let df = -1 * (de > 0 ? -1 : 1) * Math.min( settings.game.speed_rotation_limit, Math.abs(de) )
@@ -100,16 +110,6 @@ sf.engine = (function() {
     let alter = hero.meta.player_model_instructions.length == 0 ? true : false
     let pm = hero.meta.player_models
     
-    let inversion = false
-    
-    let dg = hero.v.r - hero.r
-    let dh = dg == 0 ? 0 : (dg + Math.PI) % (2*Math.PI) - Math.PI
-    
-    if ( -settings.game.forward_angle <= dh && dh <= settings.game.forward_angle ) {
-      inversion = false
-    } else {
-      inversion = true
-    }
     
     if (hero.xv.m != hero.v.m || dg != 0) {
       alter = true
