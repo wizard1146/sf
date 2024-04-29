@@ -196,6 +196,14 @@ sf.constructs = (function() {
     }
   }
   
+  class Projectile extends Actor {
+    constructor(key, options) {
+      options.t = 'projectile'
+      super(key, options)
+      
+    }
+  }
+  
   class Star extends Artefact {
     constructor(key, options) {
       options.t = 'star'

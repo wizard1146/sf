@@ -25,6 +25,7 @@ sf.preloader = (function() {
       'comptroller',
       /* read only */
       'constructs',
+      'svg',
       'css',
       'db',
       'library',

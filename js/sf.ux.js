@@ -19,7 +19,9 @@ sf.ux = (function() {
   let body, main, submain, mmenu, canvas;
   let state, substate, showX, showY;
   let js_dir, js_aim, hud_main;
-  let jsDir, jsAim, hudX, hudY, hudSector, hudEngineThrust, hudFPS, hudRotary;
+  let jsDir, jsAim;
+  let hud, hudX, hudY, hudSector, hudEngineThrust, hudFPS, hudRotary;
+  let hudW1, hudW2;
   let clock;
   
   /* Computational variables */
@@ -68,11 +70,31 @@ sf.ux = (function() {
         <div id="${settings.hud.id_rotary}" class="circle absolute bottom-right syne-mono text-grey"><div class="draw absolute"></div><div class="value"></div></div>
       </div>
     `, submain)
+    hud  = qset( `#${settings.hud.id_main}`)
     hudX = qset( `#${settings.hud.id_x} .value` )
     hudY = qset( `#${settings.hud.id_y} .value` )
     hudFPS = qset( `#${settings.hud.id_fps} .value` )
     hudSector = qset( `#${settings.hud.id_sector} .value` )
     hudRotary = qset( `#${settings.hud.id_rotary} .draw` )
+    
+    /* Weapons HUD */
+    let clickFireW1 = `sf.utilities.raiseEvent( document.querySelector(\'body\'), \'${events.comptroller.click}\', \'fire-w1\' )`
+    let clickAutoW1 = `sf.utilities.raiseEvent( document.querySelector(\'body\'), \'${events.comptroller.click}\', \'auto-w1\' )`
+    let clickFireW2 = `sf.utilities.raiseEvent( document.querySelector(\'body\'), \'${events.comptroller.click}\', \'fire-w2\' )`
+    let clickAutoW2 = `sf.utilities.raiseEvent( document.querySelector(\'body\'), \'${events.comptroller.click}\', \'auto-w2\' )`
+    inject(`
+      <!-- Weapons free -->
+      <div id="${settings.hud.id_weapon_01}" class="${settings.hud.class_weapon} absolute bottom-right syne-mono text-grey">
+        <div id="${settings.hud.id_weapon_01}_button" class="${settings.hud.class_weapon_button} circle text-center pointer cursor" onclick="${clickFireW1}">&intercal;</div>
+        <div id="${settings.hud.id_weapon_01}_button_auto" class="${settings.hud.class_weapon_button} circle auto pointer cursor" onclick="${clickAutoW1}"><div class="bg"></div><div class="fg"></div></div>
+      </div>
+      <div id="${settings.hud.id_weapon_02}" class="${settings.hud.class_weapon} absolute bottom-right syne-mono text-grey">
+        <div id="${settings.hud.id_weapon_02}_button" class="${settings.hud.class_weapon_button} circle text-center pointer cursor" onclick="${clickFireW2}">&intercal;</div>
+        <div id="${settings.hud.id_weapon_02}_button_auto" class="${settings.hud.class_weapon_button} circle auto pointer cursor" onclick="${clickAutoW2}"><div class="bg"></div><div class="fg"></div></div>
+      </div>
+    `, hud)
+    hudW1  = qset( `#${settings.hud.id_weapon_01}` )
+    hudW2  = qset( `#${settings.hud.id_weapon_02}` )
   }
   
   let renderTitle = function() {

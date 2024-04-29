@@ -5,7 +5,8 @@ sf.css = (function() {
   let addCSS   = sf.utilities.addCSS
   let events   = sf.comptroller.events()
   let settings = sf.settings.get()
-  let qset    = function( selector ) { let b = document.querySelectorAll( selector ); return b?.length > 1 ? b : document.querySelector( selector ) }
+  let svg      = sf.svg.get
+  let qset     = function( selector ) { let b = document.querySelectorAll( selector ); return b?.length > 1 ? b : document.querySelector( selector ) }
   
   let event_initialise = events.preloader.initial
   
@@ -117,6 +118,9 @@ sf.css = (function() {
     }
     .no-pointer {
       pointer-events: none;
+    }
+    .pointer {
+      pointer-events: auto;
     }
     .circle {
       border-radius: 50%;
@@ -346,6 +350,38 @@ sf.css = (function() {
       width     : ${s_hud.rotary_dial_width};
       border    : ${s_hud.rotary_border};
       border-radius: ${s_hud.rotary_dial_border_radius};
+    }
+    /* Combat HUD */
+    #${s_hud.id_weapon_01},
+    #${s_hud.id_weapon_02} {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+    #${s_hud.id_weapon_01} {
+      right  : ${s_hud.w1_right_offset};
+      bottom : ${s_hud.w1_bottom_offset};
+    }
+    #${s_hud.id_weapon_02} {
+      right  : ${s_hud.w2_right_offset};
+      bottom : ${s_hud.w2_bottom_offset};
+    }
+    .${s_hud.class_weapon_button} {
+      width  : ${s_hud.w_button_size};
+      height : ${s_hud.w_button_size};
+      border : ${s_hud.w_button_border};
+      padding: 0;
+      margin : 0.3ch;
+      font-size: ${s_hud.w_button_fsize};
+    }
+    .${s_hud.class_weapon_button}:focus {
+      border    : ${s_hud.w_button_border_focus};
+      font-color: ${s_hud.w_button_focused};
+    }
+    .${s_hud.class_weapon_button}.auto .bg {
+      background-image: url(${svg('auto')});
+      filter: invert(48%);
+      width : 100%;
+      height: 100%;
     }
     `,
   ]

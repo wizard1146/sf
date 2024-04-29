@@ -115,6 +115,13 @@ sf.settings = (function() {
       id_sector     : `sfh-sector`,
       id_rotary     : `sfh-rotary`,
       class_coords  : `sfh-coordinates`,
+      // ID: Attack interface
+      id_weapon_01  : `sfh-weapon-01`,
+      id_weapon_02  : `sfh-weapon-02`,
+      id_weapon_03  : `sfh-weapon-03`,
+      id_weapon_04  : `sfh-weapon-04`,
+      class_weapon  : `sfh-weapon`,
+      class_weapon_button: `sfh-weapon-button`,
       // HUD
       // Sector
       sector_margin : `1.4ch`,
@@ -139,6 +146,16 @@ sf.settings = (function() {
       rotary_opacity   : `0.6`,
       rotary_dial_width: `3px`,
       rotary_dial_border_radius: `3px`,
+      // Weapon1
+      w_button_size   : `1.8ch`,
+      w_button_border : `1px dashed rgba( 144, 144, 189, 0.38 )`,
+      w_button_fsize  : `31pt`,
+      w_button_border_focus: `rgba( 231, 144, 144, 1.00 )`,
+      w_button_focused: `rgba( 231, 144, 144, 1.00 )`,
+      w1_right_offset  : `calc( 180px + 6ch )`,
+      w1_bottom_offset : `calc( 3/5 * 180px )`,
+      w2_right_offset  : `calc( 180px + 6ch )`,
+      w2_bottom_offset : `calc( 1/5 * 180px )`,
     },
     input: {
       id_js_dir   : `sfi-js-dir`,
