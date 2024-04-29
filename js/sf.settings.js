@@ -130,7 +130,7 @@ sf.settings = (function() {
       sector_opacity: `0.4`,
       // Coordinates
       coordinatesXY_refactor: 10,
-      coordinatesXY_opacity : `0.55`,
+      coordinatesXY_opacity : `0.35`,
       coordinatesXY_yWidth  : `calc(180px + 0ch)`,
       coordinatesXY_yBottom : `calc(180px + 2.1ch)`,
       coordinatesXY_yLeft   : `0px`,
@@ -152,8 +152,8 @@ sf.settings = (function() {
       w_button_fsize   : `31pt`,
       w_button_lheight : `2.0ch`,
       w_button_opacity : `0.33`,
-      w_button_border_active: `rgba( 231, 144, 144, 1.00 )`,
-      w_button_active  : `rgba( 231, 144, 144, 1.00 )`,
+      w_button_border_active: `1px dashed rgba( 105, 42, 48, 1.00 )`,
+      w_button_active  : `rgba( 105, 42, 48, 1.00 )`,
       
       w1_right_offset  : `calc( 180px + 6ch )`,
       w1_bottom_offset : `calc( 3/5 * 180px )`,

@@ -84,13 +84,13 @@ sf.ux = (function() {
     let clickAutoW2 = `sf.utilities.raiseEvent( document.querySelector(\'body\'), \'${events.comptroller.click}\', \'auto-w2\' )`
     inject(`
       <!-- Weapons free -->
-      <div id="${settings.hud.id_weapon_01}" class="${settings.hud.class_weapon} absolute bottom-right syne-mono text-grey">
-        <div id="${settings.hud.id_weapon_01}_button" class="${settings.hud.class_weapon_button} circle text-center pointer cursor" onclick="${clickFireW1}">&intercal;</div>
-        <div id="${settings.hud.id_weapon_01}_button_auto" class="${settings.hud.class_weapon_button} circle auto pointer cursor" onclick="${clickAutoW1}"><div class="bg"></div><div class="fg"></div></div>
+      <div id="${settings.hud.id_weapon_01}" class="${settings.hud.class_weapon} absolute bottom-right syne-mono text-grey pointer">
+        <div id="${settings.hud.id_weapon_01}_button" class="${settings.hud.class_weapon_button} circle text-center cursor" onclick="${clickFireW1}">&intercal;</div>
+        <div id="${settings.hud.id_weapon_01}_button_auto" class="${settings.hud.class_weapon_button} circle auto cursor" onclick="${clickAutoW1}"><div class="bg"></div><div class="fg"></div></div>
       </div>
-      <div id="${settings.hud.id_weapon_02}" class="${settings.hud.class_weapon} absolute bottom-right syne-mono text-grey">
-        <div id="${settings.hud.id_weapon_02}_button" class="${settings.hud.class_weapon_button} circle text-center pointer cursor" onclick="${clickFireW2}">&intercal;</div>
-        <div id="${settings.hud.id_weapon_02}_button_auto" class="${settings.hud.class_weapon_button} circle auto pointer cursor" onclick="${clickAutoW2}"><div class="bg"></div><div class="fg"></div></div>
+      <div id="${settings.hud.id_weapon_02}" class="${settings.hud.class_weapon} absolute bottom-right syne-mono text-grey pointer">
+        <div id="${settings.hud.id_weapon_02}_button" class="${settings.hud.class_weapon_button} circle text-center cursor" onclick="${clickFireW2}">&intercal;</div>
+        <div id="${settings.hud.id_weapon_02}_button_auto" class="${settings.hud.class_weapon_button} circle auto cursor" onclick="${clickAutoW2}"><div class="bg"></div><div class="fg"></div></div>
       </div>
     `, hud)
     hudW1  = qset( `#${settings.hud.id_weapon_01}` )
