@@ -146,12 +146,14 @@ sf.settings = (function() {
       rotary_opacity   : `0.6`,
       rotary_dial_width: `3px`,
       rotary_dial_border_radius: `3px`,
-      // Weapon1
-      w_button_size   : `1.8ch`,
-      w_button_border : `1px dashed rgba( 144, 144, 189, 0.38 )`,
-      w_button_fsize  : `31pt`,
-      w_button_border_focus: `rgba( 231, 144, 144, 1.00 )`,
-      w_button_focused: `rgba( 231, 144, 144, 1.00 )`,
+      // Weapons
+      w_button_size    : `1.8ch`,
+      w_button_border  : `1px dashed rgba( 144, 144, 189, 0.67 )`,
+      w_button_fsize   : `31pt`,
+      w_button_opacity : `0.33`,
+      w_button_border_active: `rgba( 231, 144, 144, 1.00 )`,
+      w_button_active  : `rgba( 231, 144, 144, 1.00 )`,
+      
       w1_right_offset  : `calc( 180px + 6ch )`,
       w1_bottom_offset : `calc( 3/5 * 180px )`,
       w2_right_offset  : `calc( 180px + 6ch )`,

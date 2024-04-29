@@ -371,11 +371,13 @@ sf.css = (function() {
       border : ${s_hud.w_button_border};
       padding: 0;
       margin : 0.3ch;
+      opacity: ${s_hud.w_button_opacity};
       font-size: ${s_hud.w_button_fsize};
     }
-    .${s_hud.class_weapon_button}:focus {
-      border    : ${s_hud.w_button_border_focus};
-      font-color: ${s_hud.w_button_focused};
+    .${s_hud.class_weapon_button}:active {
+      opacity   : 0.84,
+      border    : ${s_hud.w_button_border_active};
+      font-color: ${s_hud.w_button_active};
     }
     .${s_hud.class_weapon_button}.auto .bg {
       background-image: url(${svg('auto')});
