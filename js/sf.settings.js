@@ -150,6 +150,7 @@ sf.settings = (function() {
       w_button_size    : `1.8ch`,
       w_button_border  : `1px dashed rgba( 144, 144, 189, 0.67 )`,
       w_button_fsize   : `31pt`,
+      w_button_lheight : `1.8ch`,
       w_button_opacity : `0.33`,
       w_button_border_active: `rgba( 231, 144, 144, 1.00 )`,
       w_button_active  : `rgba( 231, 144, 144, 1.00 )`,

@@ -303,7 +303,8 @@ sf.css = (function() {
     
     /* HUD */
     #${s_hud.id_main} {
-    
+      -webkit-tap-highlight-color: transparent;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
     #${s_hud.id_x} {
       width  : ${s_hud.coordinatesXY_xWidth};
@@ -372,9 +373,11 @@ sf.css = (function() {
       padding: 0;
       margin : 0.3ch;
       opacity: ${s_hud.w_button_opacity};
-      font-size: ${s_hud.w_button_fsize};
+      font-size  : ${s_hud.w_button_fsize};
+      line-height: ${s_hud.w_button_lheight};
     }
-    .${s_hud.class_weapon_button}:active {
+    .${s_hud.class_weapon_button}:active,
+    .${s_hud.class_weapon_button}:focus {
       opacity   : 0.84,
       border    : ${s_hud.w_button_border_active};
       font-color: ${s_hud.w_button_active};
