@@ -19,7 +19,7 @@ sf.ux = (function() {
   let body, main, submain, mmenu, canvas;
   let state, substate, showX, showY;
   let js_dir, js_aim, hud_main;
-  let jsDir, jsAim, hudX, hudY, hudSector, hudEngineThrust, hudFPS;
+  let jsDir, jsAim, hudX, hudY, hudSector, hudEngineThrust, hudFPS, hudRotary;
   let clock;
   
   /* Computational variables */
@@ -65,13 +65,14 @@ sf.ux = (function() {
         <div id="${settings.hud.id_x}" class="${settings.hud.class_coords} absolute syne-mono text-right text-grey bottom-left"><div class="value"></div></div>
         <div id="${settings.hud.id_y}" class="${settings.hud.class_coords} absolute syne-mono text-right text-grey"><div class="value"></div></div>
         <div id="${settings.hud.id_sector}" class="circle absolute syne-mono text-center text-grey"><div class="value"></div></div>
-        <div id="${settings.hud.id_rotary}" class="circle absolute bottom-right syne-mono text-grey"><div class="value"></div></div>
+        <div id="${settings.hud.id_rotary}" class="circle absolute bottom-right syne-mono text-grey"><div class="draw absolute"></div><div class="value"></div></div>
       </div>
     `, submain)
     hudX = qset( `#${settings.hud.id_x} .value` )
     hudY = qset( `#${settings.hud.id_y} .value` )
     hudFPS = qset( `#${settings.hud.id_fps} .value` )
     hudSector = qset( `#${settings.hud.id_sector} .value` )
+    hudRotary = qset( `#${settings.hud.id_rotary} .draw` )
   }
   
   let renderTitle = function() {
@@ -151,10 +152,8 @@ sf.ux = (function() {
     if (hudX) hudX.textContent = (data.hero.x / settings.hud.coordinatesXY_refactor).toFixed()
     if (hudY) hudY.textContent = (data.hero.y / settings.hud.coordinatesXY_refactor).toFixed()
     if (hudFPS) hudFPS.textContent = clock.fps().toFixed(1)
-    if (hudFPS) {
-      hudFPS.textContent = data.hero.vr - data.hero.r
-    }
     if (hudSector) hudSector.textContent = (data.hero.sector.sx + ',' + data.hero.sector.sy) // + '-' + Object.keys(data.sectors).length
+    if (hudRotary) hudRotary.style.transform = `translate( calc(${settings.input.js_size_max}/2 - ${settings.hud.rotary_dial_width}/2) , 0% ) rotate( ${data.hero.r}rad )`
   }
   
   return {

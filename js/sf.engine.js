@@ -66,6 +66,7 @@ sf.engine = (function() {
     }
     if (hero.deltaRotation != 0) {
       let de = (hero.deltaRotation + Math.PI) % (2*Math.PI) - Math.PI
+      hero.deltaR = de
       
       hero.r += -1 * (de > 0 ? -1 : 1) * Math.min( settings.game.speed_rotation_limit, Math.abs(de) )
       hero.r  = hero.r % (2 * Math.PI)
@@ -208,7 +209,10 @@ sf.engine = (function() {
       }
     } else if (payload.wh == 'aim') {
       // data.hero.r = payload.r
-      data.hero.vr = payload.r
+      if (payload.len > settings.game.turn_threshold) {
+      
+        data.hero.vr = payload.r
+      }
     }
   }
   

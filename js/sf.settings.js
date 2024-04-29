@@ -58,7 +58,7 @@ sf.settings = (function() {
     game: {
       // Settings
       fps           : 60,
-      size_unit     : 36,
+      size_unit     : 400, // 36,
       player_model  : `SRB-001-flare-0`,
       player_models : [
         {velocity: 85, model: `SRB-001-flare-2`},
@@ -74,6 +74,8 @@ sf.settings = (function() {
       initial_x     : 0,
       initial_y     : 0,
       sector_name_template: /sector_MX(-?\d+)_MY(-?\d+)/,
+      // some game-input interfacing
+      turn_threshold: 35,
     },
     canvas: {
       // IDs
@@ -126,8 +128,10 @@ sf.settings = (function() {
       fps_offset_y  : `0.33ch`,
       fps_opacity   : `0.44`,
       // Rotary
-      rotary_border : `1px dashed rgba( 141, 141, 169, 0.33 )`,
-      rotary_opacity: `0.4`,
+      rotary_border    : `1px dotted rgba( 141, 141, 169, 0.33 )`,
+      rotary_opacity   : `0.6`,
+      rotary_dial_width: `3px`,
+      rotary_dial_border_radius: `3px`,
     },
     input: {
       id_js_dir   : `sfi-js-dir`,

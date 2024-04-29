@@ -337,8 +337,15 @@ sf.css = (function() {
       max-height: ${s_input.js_size_max};
       bottom    : ${s_input.js_offset_bottom};
       right     : ${s_input.js_offset_right};
-      border    : ${s_hud.rotary_border};
       opacity   : ${s_hud.rotary_opacity};
+    }
+    #${s_hud.id_rotary} .draw {
+      transform-origin: bottom;
+      height    : calc(${s_input.js_size}/2);
+      max-height: calc(${s_input.js_size_max}/2);
+      width     : ${s_hud.rotary_dial_width};
+      border    : ${s_hud.rotary_border};
+      border-radius: ${s_hud.rotary_dial_border_radius};
     }
     `,
   ]
