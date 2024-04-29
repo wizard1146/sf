@@ -51,7 +51,8 @@ sf.engine = (function() {
     hero.deltaX = hero.v.x / settings.game.speed_limiter
     hero.deltaY = hero.v.y / settings.game.speed_limiter
     hero.deltaRotation = hero.vr - hero.r
-    // console.log(hero.vr, hero.r)
+    let de = hero.deltaRotation == 0 ? 0 : (hero.deltaRotation + Math.PI) % (2*Math.PI) - Math.PI
+    let df = -1 * (de > 0 ? -1 : 1) * Math.min( settings.game.speed_rotation_limit, Math.abs(de) )
     
     // resolve deltas
     if (hero.deltaX != 0) {
@@ -65,20 +66,13 @@ sf.engine = (function() {
       changed = true
     }
     if (hero.deltaRotation != 0) {
-      let de = (hero.deltaRotation + Math.PI) % (2*Math.PI) - Math.PI
+      // let de = (hero.deltaRotation + Math.PI) % (2*Math.PI) - Math.PI
       hero.deltaR = de
       
-      hero.r += -1 * (de > 0 ? -1 : 1) * Math.min( settings.game.speed_rotation_limit, Math.abs(de) )
+      hero.r += df // -1 * (de > 0 ? -1 : 1) * Math.min( settings.game.speed_rotation_limit, Math.abs(de) )
       hero.r  = hero.r % (2 * Math.PI)
       hero.deltaRotation = 0
       changed = true
-    }
-    // calculate the difference between face rotation & walk rotation
-    // console.log( hero.r.toFixed(2), ',',  hero.v.r.toFixed(2), ',', (hero.v.r - hero.r).toFixed(3) )
-    let inversion= false
-    let diff     = Math.abs(hero.r - hero.v.r)
-    if (diff > Math.PI/2) { 
-      inversion = true
     }
     
     /* Updates */
@@ -99,31 +93,55 @@ sf.engine = (function() {
           })
         }
       }
+    }
     
-      let k = hero.a.keys.walk
-      if (inversion) {
-        if (magnitude > settings.game.run_threshold) {
-          k = hero.a.keys.run_back
-        } else {
-          k = hero.a.keys.walk_back
+    /* Set the model instructions */
+    let instructions = [`base`]
+    let alter = hero.meta.player_model_instructions.length == 0 ? true : false
+    let pm = hero.meta.player_models
+    
+    let inversion = false
+    
+    let dg = hero.v.r - hero.r
+    let dh = dg == 0 ? 0 : (dg + Math.PI) % (2*Math.PI) - Math.PI
+    
+    if ( -settings.game.forward_angle <= dh && dh <= settings.game.forward_angle ) {
+      inversion = false
+    } else {
+      inversion = true
+    }
+    
+    if (hero.xv.m != hero.v.m || dg != 0) {
+      alter = true
+      if (!inversion) {
+        for (var i = 0; i < pm.length; i++) {
+          let f = pm[i]
+          if (hero.v.m >= f.velocity) {
+            instructions.push( f.model )
+            break
+          }
         }
       } else {
-        if (magnitude > settings.game.run_threshold) k = hero.a.keys.run
-      }
-      hero.a.key = k
-    } else {
-      hero.a.key = hero.a.keys.idle
-    }
-    // Magnitude changes
-    if (hero.xv.m != hero.v.m) {
-      for (var i = 0; i < hero.meta.player_models.length; i++) {
-        let f = hero.meta.player_models[i]
-        if (hero.v.m >= f.velocity) {
-          hero.meta.player_model = f.model
-          break
-        }
+        
       }
     }
+    // Prioritise rotation
+    if (df != 0) {
+      alter = true
+      if (df < 0) {
+        instructions.push( `right_thrust` )
+      } else if (df > 0) {
+        instructions.push( `left_thrust` )
+      }
+    } else if (dh != 0 && Math.abs(dh) > settings.game.turn_angle && hero.v.m >= pm[pm.length-1].velocity) { // then resolve-ish forward vector
+      alter = true
+      if (dh < 0) {
+        instructions.push( `right_thrust` )
+      } else if (dh > 0) {
+        instructions.push( `left_thrust` )
+      }
+    }
+    if (alter) hero.meta.player_model_instructions = instructions
     
     // save
     hero.xv = clone(hero.v)
@@ -297,3 +315,40 @@ sf.engine = (function() {
     data: function() { return data },
   }
 })()
+
+    
+    // Magnitude changes
+    /*
+    if (hero.xv.m != hero.v.m) {
+      for (var i = 0; i < hero.meta.player_models.length; i++) {
+        let f = hero.meta.player_models[i]
+        if (hero.v.m >= f.velocity) {
+          hero.meta.player_model = f.model
+          break
+        }
+      }
+    }*/
+    /*
+      let k = hero.a.keys.walk
+      if (inversion) {
+        if (magnitude > settings.game.run_threshold) {
+          k = hero.a.keys.run_back
+        } else {
+          k = hero.a.keys.walk_back
+        }
+      } else {
+        if (magnitude > settings.game.run_threshold) k = hero.a.keys.run
+      }
+      hero.a.key = k
+      */
+    // calculate the difference between face rotation & walk rotation
+    // console.log( hero.r.toFixed(2), ',',  hero.v.r.toFixed(2), ',', (hero.v.r - hero.r).toFixed(3) )
+    /*
+    console.log(instructions)
+    
+    hero.meta.player_model_instructions = [
+      `base`,
+      `forward_01`,
+      `forward_02`,
+      `left_thrust`,
+    ]*/

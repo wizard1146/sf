@@ -28,6 +28,11 @@ sf.constructs = (function() {
       this.scale = options?.scale ? options?.scale : 1.0
       this.animationKeys = options?.animationKeys
       this.sprite = options?.sprite
+      
+      // representation
+      this.player_model = ``
+      // for dynamic animation
+      this.player_model_instructions = []
     }
   }
 

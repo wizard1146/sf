@@ -169,10 +169,10 @@ sf.canvas = (function() {
     
     // render hero
     let fighter      = libGet( hero.meta.player_model )
-    let instructions = fighter.instructions
+    let instructions = fighter.compose( hero.meta.player_model_instructions ) // fighter.instructions
     let targetSize   = settings.game.size_unit
     let scaling      = targetSize/fighter.height
-    
+
     libRender( canvas, [
      { instruction: `translate`, args: [ transform.left, transform.top ] },
      { instruction: `rotate`, args: [ hero.r ] },

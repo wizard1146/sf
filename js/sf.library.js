@@ -83,14 +83,34 @@ sf.library.render( canvas, [
 let raster = new Image()
     raster.src = `assets/raster.png`
 
-
-sf.library.register(`SRB-001-flare-0`, {
+sf.library.register(`SRB-001`, {
   width : 280,
   height: 400,
-  instructions: [
-    {
-      fill: `rgba( 40, 75, 82, 0.94 )`,
-      directions: [
+  colors: {
+    engine_003_t01 : `rgba( 241, 241, 241, 0.34 )`,
+    engine_002_t01 : `rgba(  40,  75,  82, 0.94 )`,
+    engine_002_t02 : `rgba(  66, 170, 189, 0.94 )`,
+    engine_002_t03 : `rgba( 132, 217, 232, 0.94 )`,
+    engine_001_t01 : `rgba(   2,  64,  74, 0.94 )`,
+    engine_001_t02 : `rgba(   7, 101, 117, 0.94 )`,
+    engine_001_t03 : `rgba(  14, 132, 153, 0.94 )`,
+    body_002_fill  : `rgba( 125,  43,  37, 1.00 )`,
+    body_002_stroke: `rgba( 255,  23,  23, 0.33 )`,
+  },
+  raster: [
+      {instruction: `clip`, args: [] },
+      {instruction: `createPattern`, args: [raster, `repeat`] },
+    ],
+  build : {
+    engine_001: [
+        {instruction: `moveTo`, args: [ 0.65,0.50] },
+        {instruction: `lineTo`, args: [ 0.50,0.81] },
+        {instruction: `lineTo`, args: [ 0.00,0.73] },
+        {instruction: `lineTo`, args: [-0.50,0.81] },
+        {instruction: `lineTo`, args: [-0.65,0.50] },
+        {instruction: `lineTo`, args: [ 0.00,0.25] },
+      ],
+    engine_002: [
         {instruction: `moveTo`, args: [ 0.65,0.50] },
         {instruction: `lineTo`, args: [ 0.39,0.87] },
         {instruction: `lineTo`, args: [ 0.00,0.83] },
@@ -98,133 +118,13 @@ sf.library.register(`SRB-001-flare-0`, {
         {instruction: `lineTo`, args: [-0.65,0.50] },
         {instruction: `lineTo`, args: [ 0.00,0.25] },
       ],
-     },
-    {
-      fill: `rgba( 2, 64, 74, 0.94 )`,
-      directions: [
-        {instruction: `moveTo`, args: [ 0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.50,0.81] },
-        {instruction: `lineTo`, args: [ 0.00,0.73] },
-        {instruction: `lineTo`, args: [-0.50,0.81] },
-        {instruction: `lineTo`, args: [-0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.00,0.25] },
-      ],
-     },
-    {
-      fill: `rgba( 14, 132, 153, 0.94 )`,
-      directions: [
-        {instruction: `moveTo`, args: [ 0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.50,0.81] },
-        {instruction: `lineTo`, args: [ 0.00,0.73] },
-        {instruction: `lineTo`, args: [-0.50,0.81] },
-        {instruction: `lineTo`, args: [-0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.00,0.25] },
-        {instruction: `clip`, args: [] },
-        {instruction: `createPattern`, args: [raster, `repeat`] },
-      ],
-     },
-    {
-      fill: `rgba( 125, 43, 37, 1.00 )`,
-      stroke: `rgba( 255, 23, 23, 0.33 )`,
-      directions: [
-        {instruction: `moveTo`, args: [ 0.00,-1.00] },
-        {instruction: `lineTo`, args: [-1.00, 1.00] },
-        {instruction: `lineTo`, args: [ 0.00, 0.50] },
-        {instruction: `lineTo`, args: [ 1.00, 1.00] },
-        {instruction: `lineTo`, args: [ 0.00,-1.00] },
-      ],
-     },
-    {
-      directions: [
-        {instruction: `moveTo`, args: [ 0.00,-1.00] },
-        {instruction: `lineTo`, args: [-1.00, 1.00] },
-        {instruction: `lineTo`, args: [ 0.00, 0.50] },
-        {instruction: `lineTo`, args: [ 1.00, 1.00] },
-        {instruction: `lineTo`, args: [ 0.00,-1.00] },
-        {instruction: `clip`, args: [] },
-        {instruction: `createPattern`, args: [raster, `repeat`] },
-      ],
-     },
-  ]
-})
-
-sf.library.register(`SRB-001-flare-1`, {
-  width : 280,
-  height: 400,
-  instructions: [
-    {
-      fill: `rgba( 66, 170, 189, 0.94 )`,
-      directions: [
-        {instruction: `moveTo`, args: [ 0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.39,0.87] },
-        {instruction: `lineTo`, args: [ 0.00,0.83] },
-        {instruction: `lineTo`, args: [-0.39,0.87] },
-        {instruction: `lineTo`, args: [-0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.00,0.25] },
-      ],
-     },
-    {
-      fill: `rgba( 7, 101, 117, 0.94 )`,
-      directions: [
-        {instruction: `moveTo`, args: [ 0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.50,0.81] },
-        {instruction: `lineTo`, args: [ 0.00,0.73] },
-        {instruction: `lineTo`, args: [-0.50,0.81] },
-        {instruction: `lineTo`, args: [-0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.00,0.25] },
-      ],
-     },
-    {
-      fill: `rgba( 14, 132, 153, 0.94 )`,
-      directions: [
-        {instruction: `moveTo`, args: [ 0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.50,0.81] },
-        {instruction: `lineTo`, args: [ 0.00,0.73] },
-        {instruction: `lineTo`, args: [-0.50,0.81] },
-        {instruction: `lineTo`, args: [-0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.00,0.25] },
-        {instruction: `clip`, args: [] },
-        {instruction: `createPattern`, args: [raster, `repeat`] },
-      ],
-     },
-    {
-      fill: `rgba( 125, 43, 37, 1.00 )`,
-      stroke: `rgba( 255, 23, 23, 0.33 )`,
-      directions: [
-        {instruction: `moveTo`, args: [ 0.00,-1.00] },
-        {instruction: `lineTo`, args: [-1.00, 1.00] },
-        {instruction: `lineTo`, args: [ 0.00, 0.50] },
-        {instruction: `lineTo`, args: [ 1.00, 1.00] },
-        {instruction: `lineTo`, args: [ 0.00,-1.00] },
-      ],
-     },
-    {
-      directions: [
-        {instruction: `moveTo`, args: [ 0.00,-1.00] },
-        {instruction: `lineTo`, args: [-1.00, 1.00] },
-        {instruction: `lineTo`, args: [ 0.00, 0.50] },
-        {instruction: `lineTo`, args: [ 1.00, 1.00] },
-        {instruction: `lineTo`, args: [ 0.00,-1.00] },
-        {instruction: `clip`, args: [] },
-        {instruction: `createPattern`, args: [raster, `repeat`] },
-      ],
-     },
-  ]
-})
-
-sf.library.register(`SRB-001-flare-2`, {
-  width : 280,
-  height: 400,
-  instructions: [
-    {
-      fill: `rgba( 241, 241, 241, 0.94 )`,
-      directions: [
+    engine_003: [
         {instruction: `createLinearGradient`, args: [ 0.00, 0, 0.00, 1.00, 
           0.85, `rgba( 241, 241, 241, 0.94 )`, 
           0.90, `rgba( 241, 241, 241, 0.88 )`,
           0.95, `rgba( 241, 241, 241, 0.55 )`,
           1.00, `rgba( 241, 241, 241, 0.33 )`,
-          ] },
+          ]},
         {instruction: `moveTo`, args: [ 0.65,0.50] },
         {instruction: `lineTo`, args: [ 0.27,0.84] },
         {instruction: `lineTo`, args: [ 0.00,0.98] },
@@ -232,81 +132,107 @@ sf.library.register(`SRB-001-flare-2`, {
         {instruction: `lineTo`, args: [-0.65,0.50] },
         {instruction: `lineTo`, args: [ 0.00,0.25] },
       ],
-     },
-    {
-      fill: `rgba( 132, 217, 232, 0.94 )`,
-      directions: [
-        {instruction: `moveTo`, args: [ 0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.39,0.87] },
-        {instruction: `lineTo`, args: [ 0.00,0.83] },
-        {instruction: `lineTo`, args: [-0.39,0.87] },
-        {instruction: `lineTo`, args: [-0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.00,0.25] },
-      ],
-     },
-    {
-      fill: `rgba( 14, 132, 153, 0.94 )`,
-      directions: [
-        {instruction: `moveTo`, args: [ 0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.50,0.81] },
-        {instruction: `lineTo`, args: [ 0.00,0.73] },
-        {instruction: `lineTo`, args: [-0.50,0.81] },
-        {instruction: `lineTo`, args: [-0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.00,0.25] },
-      ],
-     },
-    {
-      fill: `rgba( 14, 132, 153, 0.94 )`,
-      directions: [
-        {instruction: `moveTo`, args: [ 0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.50,0.81] },
-        {instruction: `lineTo`, args: [ 0.00,0.73] },
-        {instruction: `lineTo`, args: [-0.50,0.81] },
-        {instruction: `lineTo`, args: [-0.65,0.50] },
-        {instruction: `lineTo`, args: [ 0.00,0.25] },
-        {instruction: `clip`, args: [] },
-        {instruction: `createPattern`, args: [raster, `repeat`] },
-      ],
-     },
-    {
-      fill: `rgba( 125, 43, 37, 1.00 )`,
-      stroke: `rgba( 255, 23, 23, 0.33 )`,
-      directions: [
+    body_002: [
         {instruction: `moveTo`, args: [ 0.00,-1.00] },
         {instruction: `lineTo`, args: [-1.00, 1.00] },
         {instruction: `lineTo`, args: [ 0.00, 0.50] },
         {instruction: `lineTo`, args: [ 1.00, 1.00] },
         {instruction: `lineTo`, args: [ 0.00,-1.00] },
       ],
-     },
-    {
-      directions: [
-        {instruction: `moveTo`, args: [ 0.00,-1.00] },
-        {instruction: `lineTo`, args: [-1.00, 1.00] },
-        {instruction: `lineTo`, args: [ 0.00, 0.50] },
-        {instruction: `lineTo`, args: [ 1.00, 1.00] },
-        {instruction: `lineTo`, args: [ 0.00,-1.00] },
-        {instruction: `clip`, args: [] },
-        {instruction: `createPattern`, args: [raster, `repeat`] },
+    body_001: [
+    
       ],
-     },
-  ]
-})
-
-/*
-
-      let sy = len/2 * (1/2 + 1/8) // L/2
-      let sx = -wid/2 * 1/4 // 1/4 * -W
-      let ey = len/2 * (1 + 1/8)
-      let ex = 0
-      let flare = {
-        length : 25,
+    right_001: [
+        {instruction: `moveTo`, args: [  0.27, -0.33] },
+        {instruction: `lineTo`, args: [  0.34, -0.14] },
+        {instruction: `lineTo`, args: [  0.44, -0.12] },
+        {instruction: `lineTo`, args: [  0.32, -0.36] },
+        {instruction: `lineTo`, args: [  0.27, -0.33] },
+      ],
+    left_001: [
+        {instruction: `moveTo`, args: [ -0.27, -0.33] },
+        {instruction: `lineTo`, args: [ -0.34, -0.14] },
+        {instruction: `lineTo`, args: [ -0.44, -0.12] },
+        {instruction: `lineTo`, args: [ -0.32, -0.36] },
+        {instruction: `lineTo`, args: [ -0.27, -0.33] },
+      ],
+  },
+  sequence: [
+    `engine_003`,`engine_002`,`engine_001`,
+    `body_002`,`body_001`,
+    `right_001`,`left_001`,
+  ],
+  instructions: {
+    [`base`]: [
+      {key: `engine_002`,        fill: `engine_002_t01`, stroke: null },
+      {key: `engine_001`,        fill: `engine_001_t01`, stroke: null },
+      {key: `raster:engine_001`, fill: `engine_001_t01`, stroke: null },
+      {key: `body_002`,          fill: `body_002_fill`, stroke: `body_002_stroke` },
+      {key: `raster:body_002`,   fill: `body_002_fill`, stroke: `body_002_stroke` },
+      {key: `right_001`,         fill: `engine_001_t01`, stroke: null },
+      {key: `left_001`,          fill: `engine_001_t01`, stroke: null },
+    ],
+    [`forward_01`]: [
+      {key: `engine_002`,        fill: `engine_002_t02`, stroke: null },
+      {key: `engine_001`,        fill: `engine_001_t02`, stroke: null },
+    ],
+    [`forward_02`]: [
+      {key: `engine_003`,        fill: `engine_003_t01`, stroke: null },
+      {key: `engine_002`,        fill: `engine_002_t03`, stroke: null },
+      {key: `engine_001`,        fill: `engine_001_t03`, stroke: null },
+    ],
+    [`left_thrust`]: [
+      {key: `left_001`,          fill: `engine_001_t02`, stroke: null },
+    ],
+    [`right_thrust`]: [
+      {key: `right_001`,         fill: `engine_001_t02`, stroke: null },
+    ],
+  },
+  compose: function(series) {
+    let output = []
+    
+    // assemble
+    for (var i = series.length - 1; i > -1; i--) {
+      let m = series[i]
+      let g = this.instructions[m]
+      
+      // only add to output if it does not exist
+      g.forEach(item => {
+        if (output.filter(v => v.key == item.key).length === 0) output.push(item)
+      })
+    }
+    
+    // sort
+    let r = output.filter(v => v.key.match('raster:'))
+    let h = output.filter(v => !v.key.match('raster:'))
+    h.sort((a,b) => this.sequence.indexOf(a.key) - this.sequence.indexOf(b.key))
+    // re-insert rasters
+    let p   = h.map(k => k.key)
+    let inc = 1
+    for (var i = 0; i < r.length; i++) {
+      let f = r[i]
+      let e = f.key.replace('raster:','')
+      h.splice( p.indexOf(e) + inc, 0, f )
+      inc++
+    }
+    // replace with final instruction sets
+    output = h.map(function(i) {
+      let k = i.key.replace('raster:','')
+      let y = i.key.match('raster:')
+      
+      let g = this.build[k]
+    
+      if (y) g = g.concat(this.raster)
+      
+      let d = {
+        directions: g,
+        fill      : i.fill   ? this.colors[i.fill]   : null,
+        stroke    : i.stroke ? this.colors[i.stroke] : null,
       }
-       con.moveTo( sx, sy )
-       con.bezierCurveTo( sx + 0.45*sx, ey - 0.15*ey,  ex + 0.03*ex, ey - 0.05*ey,  ex, ey )
-       con.moveTo( ex, ey )
-       con.bezierCurveTo( ex - 0.03*ex, ey - 0.05*ey, -sx - 0.45*sx, ey - 0.15*ey, -sx, sy )
-       con.arc( 0, sy, -sx, 0, Math.PI, true )
-       con.stroke()
-       con.fill()
- */
+      
+      return d
+    }.bind(this))
+    
+    return output
+  },
+})
