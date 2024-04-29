@@ -122,16 +122,34 @@ sf.engine = (function() {
           }
         }
       } else {
-        
+        for (var i = pm.length - 1; i > -1; i--) {
+          let f = pm[i]
+          if (hero.v.m >= Math.abs(f.velocity)) {
+            if (f.model.length) {
+              instructions.push( f.model )
+            }
+            break
+          }
+        }
       }
     }
+    instructions = instructions.filter(i => i.length > 0)
+    
     // Prioritise rotation
     if (df != 0) {
       alter = true
       if (df < 0) {
-        instructions.push( `right_thrust` )
+        if (Math.abs(de) < settings.game.turn_f_angle) {
+          instructions.push( `right_thrust` )
+        } else {
+          instructions.push( `right_hard_thrust` )
+        }
       } else if (df > 0) {
-        instructions.push( `left_thrust` )
+        if (Math.abs(de) < settings.game.turn_f_angle) {
+          instructions.push( `left_thrust` )
+        } else {
+          instructions.push( `left_hard_thrust` )
+        }
       }
     } else if (dh != 0 && Math.abs(dh) > settings.game.turn_angle && hero.v.m >= pm[pm.length-1].velocity) { // then resolve-ish forward vector
       alter = true

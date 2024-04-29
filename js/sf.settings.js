@@ -58,11 +58,14 @@ sf.settings = (function() {
     game: {
       // Settings
       fps           : 60,
-      size_unit     : 36, // 400, // 36,
+      size_unit     : 400, // 36,
       player_model  : `SRB-001`,
       player_models : [
-        {velocity: 85, model: `forward_02`},
-        {velocity: 40, model: `forward_01`},
+        {velocity:  85, model: `forward_02`},
+        {velocity:  40, model: `forward_01`},
+        {velocity:   0, model: ``},
+        {velocity: -40, model: `reverse_01`},
+        {velocity: -85, model: `reverse_02`},
       ],
       speed_limiter : 11.1,
       speed_refactor: 1,
@@ -76,6 +79,7 @@ sf.settings = (function() {
       // calculations
       forward_angle : 87.5 * Math.PI/180,
       turn_angle    :  7.5 * Math.PI/180,
+      turn_f_angle  : 11.5 * Math.PI/180,
       // some game-input interfacing
       turn_threshold: 35,
     },

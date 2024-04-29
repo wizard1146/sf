@@ -96,6 +96,9 @@ sf.library.register(`SRB-001`, {
     engine_001_t03 : `rgba(  14, 132, 153, 0.94 )`,
     body_002_fill  : `rgba( 125,  43,  37, 1.00 )`,
     body_002_stroke: `rgba( 255,  23,  23, 0.33 )`,
+    reverse_t01    : `rgba(  82,  37,  33, 0.86 )`,
+    reverse_t02    : `rgba(   7, 101, 117, 0.86 )`,
+    reverse_t03    : `rgba(  66, 170, 189, 0.86 )`,
   },
   raster: [
       {instruction: `clip`, args: [] },
@@ -156,11 +159,24 @@ sf.library.register(`SRB-001`, {
         {instruction: `lineTo`, args: [ -0.32, -0.36] },
         {instruction: `lineTo`, args: [ -0.27, -0.33] },
       ],
+    reverse_right: [
+        {instruction: `moveTo`, args: [  0.095, -0.81] },
+        {instruction: `lineTo`, args: [  0.090, -0.66] },
+        {instruction: `lineTo`, args: [  0.170, -0.67] },
+        {instruction: `lineTo`, args: [  0.095, -0.81] },
+      ],
+    reverse_left: [
+        {instruction: `moveTo`, args: [ -0.095, -0.81] },
+        {instruction: `lineTo`, args: [ -0.090, -0.66] },
+        {instruction: `lineTo`, args: [ -0.170, -0.67] },
+        {instruction: `lineTo`, args: [ -0.095, -0.81] },
+      ],
   },
   sequence: [
     `engine_003`,`engine_002`,`engine_001`,
     `body_002`,`body_001`,
     `right_001`,`left_001`,
+    `reverse_right`,`reverse_left`,
   ],
   instructions: {
     [`base`]: [
@@ -171,6 +187,8 @@ sf.library.register(`SRB-001`, {
       {key: `raster:body_002`,   fill: `body_002_fill`, stroke: `body_002_stroke` },
       {key: `right_001`,         fill: `engine_001_t01`, stroke: null },
       {key: `left_001`,          fill: `engine_001_t01`, stroke: null },
+      {key: `reverse_left`,      fill: `reverse_t01`, stroke: null },
+      {key: `reverse_right`,     fill: `reverse_t01`, stroke: null },
     ],
     [`forward_01`]: [
       {key: `engine_002`,        fill: `engine_002_t02`, stroke: null },
@@ -186,6 +204,20 @@ sf.library.register(`SRB-001`, {
     ],
     [`right_thrust`]: [
       {key: `right_001`,         fill: `engine_001_t02`, stroke: null },
+    ],
+    [`left_hard_thrust`]: [
+      {key: `left_001`,          fill: `engine_002_t03`, stroke: null },
+    ],
+    [`right_hard_thrust`]: [
+      {key: `right_001`,         fill: `engine_002_t03`, stroke: null },
+    ],
+    [`reverse_01`]: [
+      {key: `reverse_left`,      fill: `reverse_t02`, stroke: null },
+      {key: `reverse_right`,     fill: `reverse_t02`, stroke: null },
+    ],
+    [`reverse_02`]: [
+      {key: `reverse_left`,      fill: `reverse_t03`, stroke: null },
+      {key: `reverse_right`,     fill: `reverse_t03`, stroke: null },
     ],
   },
   compose: function(series) {
