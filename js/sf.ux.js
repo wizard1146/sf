@@ -21,7 +21,7 @@ sf.ux = (function() {
   let js_dir, js_aim, hud_main;
   let jsDir, jsAim;
   let hud, hudX, hudY, hudSector, hudEngineThrust, hudFPS, hudRotary;
-  let hudW1, hudW2;
+  let hudW1b, hudW1a, hudW2b, hudW2a;
   let clock;
   
   /* Computational variables */
@@ -77,24 +77,7 @@ sf.ux = (function() {
     hudSector = qset( `#${settings.hud.id_sector} .value` )
     hudRotary = qset( `#${settings.hud.id_rotary} .draw` )
     
-    /* Weapons HUD */
-    let clickFireW1 = `sf.utilities.raiseEvent( document.querySelector(\'body\'), \'${events.comptroller.click}\', \'fire-w1\' )`
-    let clickAutoW1 = `sf.utilities.raiseEvent( document.querySelector(\'body\'), \'${events.comptroller.click}\', \'auto-w1\' )`
-    let clickFireW2 = `sf.utilities.raiseEvent( document.querySelector(\'body\'), \'${events.comptroller.click}\', \'fire-w2\' )`
-    let clickAutoW2 = `sf.utilities.raiseEvent( document.querySelector(\'body\'), \'${events.comptroller.click}\', \'auto-w2\' )`
-    inject(`
-      <!-- Weapons free -->
-      <div id="${settings.hud.id_weapon_01}" class="${settings.hud.class_weapon} absolute bottom-right syne-mono text-grey pointer">
-        <div id="${settings.hud.id_weapon_01}_button" class="${settings.hud.class_weapon_button} circle text-center cursor" onclick="${clickFireW1}">&intercal;</div>
-        <div id="${settings.hud.id_weapon_01}_button_auto" class="${settings.hud.class_weapon_button} circle auto cursor" onclick="${clickAutoW1}"><div class="bg"></div><div class="fg"></div></div>
-      </div>
-      <div id="${settings.hud.id_weapon_02}" class="${settings.hud.class_weapon} absolute bottom-right syne-mono text-grey pointer">
-        <div id="${settings.hud.id_weapon_02}_button" class="${settings.hud.class_weapon_button} circle text-center cursor" onclick="${clickFireW2}">&intercal;</div>
-        <div id="${settings.hud.id_weapon_02}_button_auto" class="${settings.hud.class_weapon_button} circle auto cursor" onclick="${clickAutoW2}"><div class="bg"></div><div class="fg"></div></div>
-      </div>
-    `, hud)
-    hudW1  = qset( `#${settings.hud.id_weapon_01}` )
-    hudW2  = qset( `#${settings.hud.id_weapon_02}` )
+    renderWeapons()
   }
   
   let renderTitle = function() {
@@ -176,6 +159,41 @@ sf.ux = (function() {
     if (hudFPS) hudFPS.textContent = clock.fps().toFixed(1)
     if (hudSector) hudSector.textContent = (data.hero.sector.sx + ',' + data.hero.sector.sy) // + '-' + Object.keys(data.sectors).length
     if (hudRotary) hudRotary.style.transform = `translate( calc(${settings.input.js_size_max}/2 - ${settings.hud.rotary_dial_width}/2) , 0% ) rotate( ${data.hero.r}rad )`
+  }
+  
+  /*
+     Weapons & Actions HUD
+   */
+   
+  let renderWeapons = function() {
+    inject(`
+      <div id="${settings.hud.id_weapon_01}" class="${settings.hud.class_weapon} absolute bottom-right syne-mono text-grey pointer">
+        <div id="${settings.hud.id_weapon_01}_button" class="${settings.hud.class_weapon_button} circle text-center cursor">&intercal;</div>
+        <div id="${settings.hud.id_weapon_01}_button_auto" class="${settings.hud.class_weapon_button} circle auto cursor"><div class="bg"></div><div class="fg"></div></div>
+      </div>
+      <div id="${settings.hud.id_weapon_02}" class="${settings.hud.class_weapon} absolute bottom-right syne-mono text-grey pointer">
+        <div id="${settings.hud.id_weapon_02}_button" class="${settings.hud.class_weapon_button} circle text-center cursor">&intercal;</div>
+        <div id="${settings.hud.id_weapon_02}_button_auto" class="${settings.hud.class_weapon_button} circle auto cursor"><div class="bg"></div><div class="fg"></div></div>
+      </div>
+    `, hud)
+    hudW1b = qset( `#${settings.hud.id_weapon_01}_button` )
+    hudW1a = qset( `#${settings.hud.id_weapon_01}_button_auto` )
+    
+    hudW1b.addEventListener('touchstart', fireW1)
+    hudW1b.addEventListener('touchend',   fireW1End)
+    hudW1b.addEventListener('mousedown',  fireW1)
+    hudW1b.addEventListener('mouseup',    fireW1End)
+  }
+  
+  // Weapons & Actions HUD
+  let fireW1 = function(e) {
+    console.log(`start ${performance.now()}`)
+    console.log(e)
+  }
+  
+  let fireW1End = function(e) {
+    console.log(`END: ${performance.now()}`)
+    console.log(e)
   }
   
   return {

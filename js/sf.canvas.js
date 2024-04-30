@@ -177,6 +177,9 @@ sf.canvas = (function() {
      { instruction: `translate`, args: [ transform.left, transform.top ] },
      { instruction: `rotate`, args: [ hero.r ] },
     ], instructions, [ fighter.width/2 * scaling, fighter.height/2 * scaling] )
+    
+    // render units
+    
   }
   
   let loadModel = async function(e) {

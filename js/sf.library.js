@@ -160,16 +160,22 @@ sf.library.register(`SRB-001`, {
         {instruction: `lineTo`, args: [ -0.27, -0.33] },
       ],
     reverse_right: [
+        /*
         {instruction: `moveTo`, args: [  0.095, -0.81] },
         {instruction: `lineTo`, args: [  0.090, -0.66] },
         {instruction: `lineTo`, args: [  0.170, -0.67] },
         {instruction: `lineTo`, args: [  0.095, -0.81] },
+        */
+        {instruction: `moveTo`, args: [  0.655,  0.31] },
+        {instruction: `lineTo`, args: [  0.680,  0.44] },
+        {instruction: `lineTo`, args: [  0.755,  0.62] },
+        {instruction: `lineTo`, args: [  0.820,  0.64] },
       ],
     reverse_left: [
-        {instruction: `moveTo`, args: [ -0.095, -0.81] },
-        {instruction: `lineTo`, args: [ -0.090, -0.66] },
-        {instruction: `lineTo`, args: [ -0.170, -0.67] },
-        {instruction: `lineTo`, args: [ -0.095, -0.81] },
+        {instruction: `moveTo`, args: [ -0.655,  0.31] },
+        {instruction: `lineTo`, args: [ -0.680,  0.44] },
+        {instruction: `lineTo`, args: [ -0.755,  0.62] },
+        {instruction: `lineTo`, args: [ -0.820,  0.64] },
       ],
   },
   sequence: [

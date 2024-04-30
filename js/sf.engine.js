@@ -331,42 +331,6 @@ sf.engine = (function() {
 
   return {
     data: function() { return data },
+    collider: function() { return collider }, // devops
   }
 })()
-
-    
-    // Magnitude changes
-    /*
-    if (hero.xv.m != hero.v.m) {
-      for (var i = 0; i < hero.meta.player_models.length; i++) {
-        let f = hero.meta.player_models[i]
-        if (hero.v.m >= f.velocity) {
-          hero.meta.player_model = f.model
-          break
-        }
-      }
-    }*/
-    /*
-      let k = hero.a.keys.walk
-      if (inversion) {
-        if (magnitude > settings.game.run_threshold) {
-          k = hero.a.keys.run_back
-        } else {
-          k = hero.a.keys.walk_back
-        }
-      } else {
-        if (magnitude > settings.game.run_threshold) k = hero.a.keys.run
-      }
-      hero.a.key = k
-      */
-    // calculate the difference between face rotation & walk rotation
-    // console.log( hero.r.toFixed(2), ',',  hero.v.r.toFixed(2), ',', (hero.v.r - hero.r).toFixed(3) )
-    /*
-    console.log(instructions)
-    
-    hero.meta.player_model_instructions = [
-      `base`,
-      `forward_01`,
-      `forward_02`,
-      `left_thrust`,
-    ]*/
