@@ -87,18 +87,22 @@ sf.library.register(`SRB-001`, {
   width : 280,
   height: 400,
   colors: {
-    engine_003_t01 : `rgba( 241, 241, 241, 0.34 )`,
-    engine_002_t01 : `rgba(  40,  75,  82, 0.94 )`,
-    engine_002_t02 : `rgba(  66, 170, 189, 0.94 )`,
-    engine_002_t03 : `rgba( 132, 217, 232, 0.94 )`,
-    engine_001_t01 : `rgba(   2,  64,  74, 0.94 )`,
-    engine_001_t02 : `rgba(   7, 101, 117, 0.94 )`,
-    engine_001_t03 : `rgba(  14, 132, 153, 0.94 )`,
-    body_002_fill  : `rgba( 125,  43,  37, 1.00 )`,
-    body_002_stroke: `rgba( 255,  23,  23, 0.33 )`,
-    reverse_t01    : `rgba(  82,  37,  33, 0.86 )`,
-    reverse_t02    : `rgba(   7, 101, 117, 0.86 )`,
-    reverse_t03    : `rgba(  66, 170, 189, 0.86 )`,
+    engine_003_t01   : `rgba( 241, 241, 241, 0.34 )`,
+    engine_002_t01   : `rgba(  40,  75,  82, 0.94 )`,
+    engine_002_t02   : `rgba(  66, 170, 189, 0.94 )`,
+    engine_002_t03   : `rgba( 132, 217, 232, 0.94 )`,
+    engine_001_t01   : `rgba(   2,  64,  74, 0.94 )`,
+    engine_001_t02   : `rgba(   7, 101, 117, 0.94 )`,
+    engine_001_t03   : `rgba(  14, 132, 153, 0.94 )`,
+    body_002_fill    : `rgba( 125,  43,  37, 1.00 )`,
+    body_002_stroke  : `rgba( 255,  23,  23, 0.33 )`,
+    body_001_fill    : `rgba(  99,  69,  69, 1.00 )`,
+    body_001_stroke  : `rgba( 177,  44,  44, 0.31 )`,
+    body_glass_fill  : `rgba(  76, 104, 115, 0.11 )`,
+    body_glass_stroke: `rgba( 177,  44,  44, 0.23 )`,
+    reverse_t01      : `rgba(  82,  37,  33, 0.86 )`,
+    reverse_t02      : `rgba(   7, 101, 117, 0.86 )`,
+    reverse_t03      : `rgba(  66, 170, 189, 0.86 )`,
   },
   raster: [
       {instruction: `clip`, args: [] },
@@ -112,6 +116,7 @@ sf.library.register(`SRB-001`, {
         {instruction: `lineTo`, args: [-0.50,0.81] },
         {instruction: `lineTo`, args: [-0.65,0.50] },
         {instruction: `lineTo`, args: [ 0.00,0.25] },
+        {instruction: `lineTo`, args: [ 0.65,0.50] },
       ],
     engine_002: [
         {instruction: `moveTo`, args: [ 0.65,0.50] },
@@ -120,6 +125,7 @@ sf.library.register(`SRB-001`, {
         {instruction: `lineTo`, args: [-0.39,0.87] },
         {instruction: `lineTo`, args: [-0.65,0.50] },
         {instruction: `lineTo`, args: [ 0.00,0.25] },
+        {instruction: `lineTo`, args: [ 0.65,0.50] },
       ],
     engine_003: [
         {instruction: `createLinearGradient`, args: [ 0.00, 0, 0.00, 1.00, 
@@ -134,6 +140,7 @@ sf.library.register(`SRB-001`, {
         {instruction: `lineTo`, args: [-0.27,0.84] },
         {instruction: `lineTo`, args: [-0.65,0.50] },
         {instruction: `lineTo`, args: [ 0.00,0.25] },
+        {instruction: `lineTo`, args: [ 0.65,0.50] },
       ],
     body_002: [
         {instruction: `moveTo`, args: [ 0.00,-1.00] },
@@ -143,7 +150,20 @@ sf.library.register(`SRB-001`, {
         {instruction: `lineTo`, args: [ 0.00,-1.00] },
       ],
     body_001: [
-    
+        {instruction: `moveTo`, args: [  0.00,-0.35] },
+        {instruction: `lineTo`, args: [ -0.31, 0.10] },
+        {instruction: `lineTo`, args: [ -0.10, 0.31] },
+        {instruction: `lineTo`, args: [  0.10, 0.31] },
+        {instruction: `lineTo`, args: [  0.31, 0.10] },
+        {instruction: `lineTo`, args: [  0.00,-0.35] },
+      ],
+    body_glass: [
+        {instruction: `moveTo`, args: [ -0.16, 0.10] },
+        {instruction: `lineTo`, args: [ -0.10, 0.31] },
+        {instruction: `lineTo`, args: [  0.10, 0.31] },
+        {instruction: `lineTo`, args: [  0.16, 0.10] },
+        {instruction: `lineTo`, args: [  0.00,-0.35] },
+        {instruction: `lineTo`, args: [ -0.16, 0.10] },
       ],
     right_001: [
         {instruction: `moveTo`, args: [  0.27, -0.33] },
@@ -160,41 +180,79 @@ sf.library.register(`SRB-001`, {
         {instruction: `lineTo`, args: [ -0.27, -0.33] },
       ],
     reverse_right: [
-        /*
-        {instruction: `moveTo`, args: [  0.095, -0.81] },
-        {instruction: `lineTo`, args: [  0.090, -0.66] },
-        {instruction: `lineTo`, args: [  0.170, -0.67] },
-        {instruction: `lineTo`, args: [  0.095, -0.81] },
-        */
-        {instruction: `moveTo`, args: [  0.655,  0.31] },
-        {instruction: `lineTo`, args: [  0.680,  0.44] },
-        {instruction: `lineTo`, args: [  0.755,  0.62] },
+        {instruction: `moveTo`, args: [  0.600,  0.20] },
+        {instruction: `lineTo`, args: [  0.590,  0.44] },
+        {instruction: `lineTo`, args: [  0.725,  0.62] },
         {instruction: `lineTo`, args: [  0.820,  0.64] },
+        {instruction: `lineTo`, args: [  0.600,  0.20] },
       ],
     reverse_left: [
-        {instruction: `moveTo`, args: [ -0.655,  0.31] },
-        {instruction: `lineTo`, args: [ -0.680,  0.44] },
-        {instruction: `lineTo`, args: [ -0.755,  0.62] },
+        {instruction: `moveTo`, args: [ -0.600,  0.20] },
+        {instruction: `lineTo`, args: [ -0.590,  0.44] },
+        {instruction: `lineTo`, args: [ -0.725,  0.62] },
         {instruction: `lineTo`, args: [ -0.820,  0.64] },
+        {instruction: `lineTo`, args: [ -0.600,  0.20] },
+      ],
+    offwing_left: [
+        {instruction: `moveTo`, args: [ -0.815,  0.50] },
+        {instruction: `lineTo`, args: [ -1.080,  1.04] },
+        {instruction: `lineTo`, args: [ -1.095,  0.95] },
+        {instruction: `lineTo`, args: [ -0.900,  0.55] },
+        {instruction: `lineTo`, args: [ -0.815,  0.50] },
+      ],
+    offwing_right: [
+        {instruction: `moveTo`, args: [  0.815,  0.50] },
+        {instruction: `lineTo`, args: [  1.080,  1.04] },
+        {instruction: `lineTo`, args: [  1.095,  0.95] },
+        {instruction: `lineTo`, args: [  0.900,  0.55] },
+        {instruction: `lineTo`, args: [  0.815,  0.50] },
+      ],
+    offwing_left_reverse: [
+        {instruction: `moveTo`, args: [ -0.855,  0.507] },
+        {instruction: `lineTo`, args: [ -1.080,  1.040] },
+        {instruction: `lineTo`, args: [ -1.102,  0.955] },
+        {instruction: `lineTo`, args: [ -0.938,  0.560] },
+        {instruction: `lineTo`, args: [ -0.855,  0.507] },
+      ],
+    offwing_right_reverse: [
+        {instruction: `moveTo`, args: [  0.855,  0.507] },
+        {instruction: `lineTo`, args: [  1.080,  1.040] },
+        {instruction: `lineTo`, args: [  1.102,  0.955] },
+        {instruction: `lineTo`, args: [  0.938,  0.560] },
+        {instruction: `lineTo`, args: [  0.855,  0.507] },
       ],
   },
   sequence: [
     `engine_003`,`engine_002`,`engine_001`,
-    `body_002`,`body_001`,
+    `body_002`,`body_001`,`body_glass`,
+    `offwing_right`,`offwing_left`,`offwing_right_reverse`,`offwing_left_reverse`,
     `right_001`,`left_001`,
     `reverse_right`,`reverse_left`,
   ],
   instructions: {
     [`base`]: [
-      {key: `engine_002`,        fill: `engine_002_t01`, stroke: null },
-      {key: `engine_001`,        fill: `engine_001_t01`, stroke: null },
-      {key: `raster:engine_001`, fill: `engine_001_t01`, stroke: null },
-      {key: `body_002`,          fill: `body_002_fill`, stroke: `body_002_stroke` },
-      {key: `raster:body_002`,   fill: `body_002_fill`, stroke: `body_002_stroke` },
-      {key: `right_001`,         fill: `engine_001_t01`, stroke: null },
-      {key: `left_001`,          fill: `engine_001_t01`, stroke: null },
-      {key: `reverse_left`,      fill: `reverse_t01`, stroke: null },
-      {key: `reverse_right`,     fill: `reverse_t01`, stroke: null },
+      {key: `engine_002`,           fill: `engine_002_t01`,  stroke: null },
+      {key: `engine_001`,           fill: `engine_001_t01`,  stroke: null },
+      {key: `raster:engine_001`,    fill: `engine_001_t01`,  stroke: null },
+      {key: `body_002`,             fill: `body_002_fill`,   stroke: `body_002_stroke` },
+      {key: `raster:body_002`,      fill: `body_002_fill`,   stroke: `body_002_stroke` },
+      {key: `body_001`,             fill: `body_001_fill`,   stroke: null },
+      {key: `raster:body_001`,      fill: `body_001_fill`,   stroke: `body_001_stroke` },
+      {key: `body_glass`,           fill: `body_glass_fill`, stroke: `body_glass_stroke` },
+      {key: `right_001`,            fill: `engine_001_t01`,  stroke: null },
+      {key: `left_001`,             fill: `engine_001_t01`,  stroke: null },
+      {key: `reverse_left`,         fill: `reverse_t01`,     stroke: null },
+      {key: `reverse_right`,        fill: `reverse_t01`,     stroke: null },
+      {key: `offwing_left`,         fill: `body_002_fill`,   stroke: `body_001_stroke` },
+      {key: `raster:offwing_left`,  fill: `body_002_fill`,   stroke: `body_001_stroke` },
+      {key: `offwing_right`,        fill: `body_002_fill`,   stroke: `body_001_stroke` },
+      {key: `raster:offwing_right`, fill: `body_002_fill`,   stroke: `body_001_stroke` },
+    ],
+    [`offwing_reverse`]: [
+      {key: `offwing_left_reverse`,         fill: `body_002_fill`,  stroke: `body_001_stroke` },
+      {key: `raster:offwing_left_reverse`,  fill: `body_002_fill`,  stroke: `body_001_stroke` },
+      {key: `offwing_right_reverse`,        fill: `body_002_fill`,  stroke: `body_001_stroke` },
+      {key: `raster:offwing_right_reverse`, fill: `body_002_fill`,  stroke: `body_001_stroke` },
     ],
     [`forward_01`]: [
       {key: `engine_002`,        fill: `engine_002_t02`, stroke: null },
@@ -229,6 +287,10 @@ sf.library.register(`SRB-001`, {
   compose: function(series) {
     let output = []
     
+    // pre-processing
+    let offwing_reverse = false
+    if (series.indexOf(`offwing_reverse`) != -1) offwing_reverse = true
+    
     // assemble
     for (var i = series.length - 1; i > -1; i--) {
       let m = series[i]
@@ -238,6 +300,7 @@ sf.library.register(`SRB-001`, {
       g.forEach(item => {
         if (output.filter(v => v.key == item.key).length === 0) output.push(item)
       })
+      if (offwing_reverse) output = output.filter(v => [`offwing_right`,`raster:offwing_right`,`offwing_left`,`raster:offwing_left`].indexOf(v.key) == -1)
     }
     
     // sort
@@ -246,12 +309,22 @@ sf.library.register(`SRB-001`, {
     h.sort((a,b) => this.sequence.indexOf(a.key) - this.sequence.indexOf(b.key))
     // re-insert rasters
     let p   = h.map(k => k.key)
+    /*
     let inc = 1
     for (var i = 0; i < r.length; i++) {
       let f = r[i]
       let e = f.key.replace('raster:','')
+      console.log(e, p.indexOf(e))
       h.splice( p.indexOf(e) + inc, 0, f )
       inc++
+    }
+    */
+    // there must be a more efficient solution!
+    while (r.length > 0) {
+      let f = r.shift()
+      let e = f.key.replace(`raster:`,'')
+      h.splice( p.indexOf(e) + 1, 0, f )
+      p = h.map(k => k.key)
     }
     // replace with final instruction sets
     output = h.map(function(i) {

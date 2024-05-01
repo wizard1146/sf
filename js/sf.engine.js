@@ -126,6 +126,7 @@ sf.engine = (function() {
           let f = pm[i]
           if (hero.v.m >= Math.abs(f.velocity)) {
             if (f.model.length) {
+              instructions.push( `offwing_reverse` )
               instructions.push( f.model )
             }
             break
