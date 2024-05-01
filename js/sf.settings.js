@@ -58,7 +58,7 @@ sf.settings = (function() {
     game: {
       // Settings
       fps           : 60,
-      size_unit     : 300, // 36,
+      size_unit     : 36, // 400, // 36,
       player_model  : `SRB-001`,
       player_models : [
         {velocity:  85, model: `forward_02`},
