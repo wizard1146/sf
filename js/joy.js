@@ -24,6 +24,11 @@
   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   * SOFTWARE.
  */
+ 
+/*
+   Issues:
+     not compatible with a parent transform:translate
+ */
 
 let Joy = (function() {
   let defaults = {
@@ -35,9 +40,9 @@ let Joy = (function() {
     /* Dimensions */
     canvas_width     : 180,
     canvas_height    : 180,
-    radii_increment  : 10,
-    internal_radius  : (180 - (10 + 180/2))/2,
-    external_margin  : 30,
+    radii_increment  : 20,
+    internal_radius  : (200 - (20 + 180/2))/2,
+    external_margin  : 18,
     max_margin       : 5,
     /* Styling */
     external_line    : 2,
@@ -46,7 +51,7 @@ let Joy = (function() {
     internal_stroke  : `rgba(   0, 144,  13, 1.00 )`,
     internal_fill    : `rgba( 133,  14,  13, 1.00 )`,
   }
-  let canvasTemplate = `<canvas id="ID_CANVAS" height="CANVAS_HEIGHT" width="CANVAS_WIDTH"></canvas>`
+  let canvasTemplate = `<canvas id="ID_CANVAS" height="CANVAS_HEIGHT" width="CANVAS_WIDTH" style="position:relative;"></canvas>`
 
   class joystick {
     constructor(container, options, callback) {
@@ -270,6 +275,7 @@ let Joy = (function() {
       
       this.rx = e.pageX
       this.ry = e.pageY
+      
       // Handle offset
       if (this.canvas.offsetParent.tagName.toUpperCase() === 'BODY') {
         this.rx -= this.canvas.offsetLeft
@@ -278,13 +284,45 @@ let Joy = (function() {
         this.rx -= this.canvas.offsetParent.offsetLeft
         this.ry -= this.canvas.offsetParent.offsetTop
       }
+      
       // Place limitations
       if (this.rx < this.ir) { this.rx = this.max }
       if (this.ry < this.ir) { this.ry = this.max }
       if (this.rx + this.ir > this.canvas.width ) { this.rx = this.canvas.width  - this.max }
       if (this.ry + this.ir > this.canvas.height) { this.ry = this.canvas.height - this.max }
+      
+      // do our own calculations
+      let ax, ay, vx, vy, vr, vm, vf, mx, my;
+      ax = e.pageX
+      ay = e.pageY
+      // move to the top left of our bounding box
+      let m = this.canvas.getBoundingClientRect()
+      ax -= m.x
+      ay -= m.y
+      // move the calculation coordinates to the center
+      vx = ax - this.canvas.width  / 2
+      vy = ay - this.canvas.height / 2
+      // refactor our vx, vy into it's maximal values
+      vm = Math.sqrt( vx*vx + vy*vy )
+      vf = vm > this.er ? this.er / vm : 1
+      mx = vf * vx
+      my = vf * vy
+      // calculate the r
+      // vr = Math.atan2( vy, vx )
+      
+      this.rx = mx + this.canvas.width/2
+      this.ry = my + this.canvas.width/2
       // Render
       this.render()
+      
+      /*
+      this.context.beginPath()
+      this.context.moveTo( this.canvas.width/2, this.canvas.width/2 )
+      this.context.lineTo( this.rx, this.ry )
+      this.context.stroke()
+      this.context.closePath()
+      */
+      
       // Callback
       this.callback(this.payload())
     }
