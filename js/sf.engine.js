@@ -52,6 +52,9 @@ sf.engine = (function() {
     let inversion = false
     let dg = hero.v.r - hero.r
     let dh = dg == 0 ? 0 : (dg + Math.PI) % (2*Math.PI) - Math.PI
+    
+    // document.querySelector(`#${settings.hud.id_dev} .value`).textContent = dh.toFixed(2)
+      
     if ( -settings.game.forward_angle <= dh && dh <= settings.game.forward_angle ) {
       inversion = false
     } else {
@@ -152,7 +155,7 @@ sf.engine = (function() {
           instructions.push( `left_hard_thrust` )
         }
       }
-    } else if (dh != 0 && Math.abs(dh) > settings.game.turn_angle && hero.v.m >= pm[pm.length-1].velocity) { // then resolve-ish forward vector
+    } else if (dh != 0 && Math.abs(dh) > settings.game.turn_angle && Math.abs(dh) < (Math.PI - settings.game.turn_angle) && hero.v.m >= pm[pm.length-1].velocity) { // then resolve-ish forward vector
       alter = true
       if (dh < 0) {
         instructions.push( `right_thrust` )
@@ -238,11 +241,12 @@ sf.engine = (function() {
   let jsPayload = function(e) {
     let payload = e.detail
     if (payload.wh == 'dir') {
+      let r = payload.len === 0 ? 0 : payload.r
       data.hero.v = {
         x:  payload.x / settings.game.speed_refactor,
         y:  payload.y / settings.game.speed_refactor,
         m:  payload.len,
-        r:  payload.r,
+        r:  r,
       }
     } else if (payload.wh == 'aim') {
       // data.hero.r = payload.r

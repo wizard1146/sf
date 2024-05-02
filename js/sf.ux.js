@@ -20,7 +20,7 @@ sf.ux = (function() {
   let state, substate, showX, showY;
   let js_dir, js_aim, hud_main;
   let jsDir, jsAim;
-  let hud, hudX, hudY, hudSector, hudEngineThrust, hudFPS, hudRotary;
+  let hud, hudDev, hudX, hudY, hudSector, hudEngineThrust, hudFPS, hudRotary;
   let hudW1b, hudW1a, hudW2b, hudW2a;
   let clock;
   
@@ -58,6 +58,7 @@ sf.ux = (function() {
   let renderHUD = function() {
     inject(`
       <div id="${settings.hud.id_main}" class="absolute fullscreen center no-pointer no-select">
+        <div id="${settings.hud.id_dev}" class="absolute top-center syne-mono text-grey"><div class="value"></div></div>
         <div id="${settings.hud.id_xyz}" class="absolute top-right hidden">
           <div id="${settings.hud.id_xyz}-X"><div class="label">X</div><div class="value"></div></div>
           <div id="${settings.hud.id_xyz}-Y"><div class="label">Y</div><div class="value"></div></div>
@@ -71,6 +72,7 @@ sf.ux = (function() {
       </div>
     `, submain)
     hud  = qset( `#${settings.hud.id_main}`)
+    hudDev = qset( `#${settings.hud.id_dev} .value`)
     hudX = qset( `#${settings.hud.id_x} .value` )
     hudY = qset( `#${settings.hud.id_y} .value` )
     hudFPS = qset( `#${settings.hud.id_fps} .value` )

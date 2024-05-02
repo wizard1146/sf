@@ -71,6 +71,11 @@ sf.css = (function() {
       top      : 50%;
       transform: translate( -50%, -50% );
     }
+    .top-center {
+      top      : 0%;
+      left     : 50%;
+      transform: translate( -50%, 0% );
+    }
     .top-left  {
       left     : 0%;
       top      : 0%;
@@ -305,6 +310,9 @@ sf.css = (function() {
     #${s_hud.id_main} {
       -webkit-tap-highlight-color: transparent;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+    #${s_hud.id_dev} {
+      font-size: ${s_hud.font_size};
     }
     #${s_hud.id_x} {
       width  : ${s_hud.coordinatesXY_xWidth};

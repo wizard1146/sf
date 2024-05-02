@@ -58,7 +58,7 @@ sf.settings = (function() {
     game: {
       // Settings
       fps           : 60,
-      size_unit     : 36, // 400, // 36,
+      size_unit     : 36, // 300, // 36,
       player_model  : `SRB-001`,
       player_models : [
         {velocity:  85, model: `forward_02`},
@@ -107,6 +107,7 @@ sf.settings = (function() {
     hud: {
       // IDs
       id_main       : `sfh-main`,
+      id_dev        : `sfh-dev`,
       id_fps        : `sfh-fps`,
       id_xyz        : `sfh-xyz`,
       id_x          : `sfh-x`,
@@ -123,6 +124,8 @@ sf.settings = (function() {
       class_weapon  : `sfh-weapon`,
       class_weapon_button: `sfh-weapon-button`,
       // HUD
+      // Dev
+      font_size     : `7pt`,
       // Sector
       sector_margin : `1.4ch`,
       sector_size   : `11ch`,

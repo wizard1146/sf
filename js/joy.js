@@ -28,8 +28,8 @@
 let Joy = (function() {
   let defaults = {
     /* IDs */
-    rotation_invert  : true,
-    rotation_offset  : -90,
+    rotation_invert  : false,
+    rotation_offset  : 0,
     /* Behaviours */
     auto_return      : true,
     /* Dimensions */

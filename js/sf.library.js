@@ -309,23 +309,15 @@ sf.library.register(`SRB-001`, {
     h.sort((a,b) => this.sequence.indexOf(a.key) - this.sequence.indexOf(b.key))
     // re-insert rasters
     let p   = h.map(k => k.key)
-    /*
-    let inc = 1
-    for (var i = 0; i < r.length; i++) {
-      let f = r[i]
-      let e = f.key.replace('raster:','')
-      console.log(e, p.indexOf(e))
-      h.splice( p.indexOf(e) + inc, 0, f )
-      inc++
-    }
-    */
-    // there must be a more efficient solution!
-    while (r.length > 0) {
-      let f = r.shift()
-      let e = f.key.replace(`raster:`,'')
-      h.splice( p.indexOf(e) + 1, 0, f )
-      p = h.map(k => k.key)
-    }
+    
+    r.forEach(k => {
+      k.parent = k.key.replace('raster:','')
+      k.ni     = p.indexOf( k.parent )
+    })
+    r.sort((a,b) => a.ni < b.ni ? 1 : a.ni > b.ni ? -1 : 0) // big to small
+    r.forEach(k => {
+      h.splice( k.ni + 1, 0, k )
+    })
     // replace with final instruction sets
     output = h.map(function(i) {
       let k = i.key.replace('raster:','')
@@ -340,7 +332,6 @@ sf.library.register(`SRB-001`, {
         fill      : i.fill   ? this.colors[i.fill]   : null,
         stroke    : i.stroke ? this.colors[i.stroke] : null,
       }
-      
       return d
     }.bind(this))
     
