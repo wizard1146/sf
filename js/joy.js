@@ -229,21 +229,27 @@ let Joy = (function() {
       // if (!this.toucher) return
       // if (!e.targetTouches[0].target == this.canvas) return
       if (this.pressed == 1 && e.targetTouches[0].target === this.canvas) {
-        this.rx = e.targetTouches[0].pageX
-        this.ry = e.targetTouches[0].pageY
-        // Handle offset
-        if (this.canvas.offsetParent.tagName.toUpperCase() === 'BODY') {
-          this.rx -= this.canvas.offsetLeft
-          this.ry -= this.canvas.offsetTop
-        } else {
-          this.rx -= this.canvas.offsetParent.offsetLeft
-          this.ry -= this.canvas.offsetParent.offsetTop
-        }
-        // Place limitations
-        if (this.rx < this.ir) { this.rx = this.max }
-        if (this.ry < this.ir) { this.ry = this.max }
-        if (this.rx + this.ir > this.canvas.width ) { this.rx = this.canvas.width  - this.max }
-        if (this.ry + this.ir > this.canvas.height) { this.ry = this.canvas.height - this.max }
+        // do our own calculations
+        let vx, vy, vr, vm, vf;
+        let w2 = this.canvas.width  / 2
+        let h2 = this.canvas.height / 2
+        vx = e.targetTouches[0].pageX
+        vy = e.targetTouches[0].pageY
+        // move to the top left of our bounding box
+        let m = this.canvas.getBoundingClientRect()
+        vx -= m.x
+        vy -= m.y
+        // move the calculation coordinates to the center
+        vx -= w2
+        vy -= h2
+        // refactor our vx, vy into it's maximal values
+        vm = Math.sqrt( vx*vx + vy*vy )
+        vf = vm > this.er ? this.er / vm : 1
+        // calculate the r
+        // vr = Math.atan2( vy, vx )
+      
+        this.rx = vf * vx + w2
+        this.ry = vf * vy + h2
         // Render
         this.render()
         // Callback
@@ -273,55 +279,29 @@ let Joy = (function() {
       if (!this.mouser) return
       // if (e.target.id != this.id_canvas) return
       
-      this.rx = e.pageX
-      this.ry = e.pageY
-      
-      // Handle offset
-      if (this.canvas.offsetParent.tagName.toUpperCase() === 'BODY') {
-        this.rx -= this.canvas.offsetLeft
-        this.ry -= this.canvas.offsetTop
-      } else {
-        this.rx -= this.canvas.offsetParent.offsetLeft
-        this.ry -= this.canvas.offsetParent.offsetTop
-      }
-      
-      // Place limitations
-      if (this.rx < this.ir) { this.rx = this.max }
-      if (this.ry < this.ir) { this.ry = this.max }
-      if (this.rx + this.ir > this.canvas.width ) { this.rx = this.canvas.width  - this.max }
-      if (this.ry + this.ir > this.canvas.height) { this.ry = this.canvas.height - this.max }
-      
       // do our own calculations
-      let ax, ay, vx, vy, vr, vm, vf, mx, my;
-      ax = e.pageX
-      ay = e.pageY
+      let vx, vy, vr, vm, vf;
+      let w2 = this.canvas.width  / 2
+      let h2 = this.canvas.height / 2
+      vx = e.pageX
+      vy = e.pageY
       // move to the top left of our bounding box
       let m = this.canvas.getBoundingClientRect()
-      ax -= m.x
-      ay -= m.y
+      vx -= m.x
+      vy -= m.y
       // move the calculation coordinates to the center
-      vx = ax - this.canvas.width  / 2
-      vy = ay - this.canvas.height / 2
+      vx -= w2
+      vy -= h2
       // refactor our vx, vy into it's maximal values
       vm = Math.sqrt( vx*vx + vy*vy )
       vf = vm > this.er ? this.er / vm : 1
-      mx = vf * vx
-      my = vf * vy
       // calculate the r
       // vr = Math.atan2( vy, vx )
       
-      this.rx = mx + this.canvas.width/2
-      this.ry = my + this.canvas.width/2
+      this.rx = vf * vx + w2
+      this.ry = vf * vy + h2
       // Render
       this.render()
-      
-      /*
-      this.context.beginPath()
-      this.context.moveTo( this.canvas.width/2, this.canvas.width/2 )
-      this.context.lineTo( this.rx, this.ry )
-      this.context.stroke()
-      this.context.closePath()
-      */
       
       // Callback
       this.callback(this.payload())
