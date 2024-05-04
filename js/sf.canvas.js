@@ -26,6 +26,7 @@ sf.canvas = (function() {
   /* Computational variables */
   let isf;
   let transform = { left: 0, top : 0 };
+  let resizeLockout;
 
 
   let createScene = function(options) {
@@ -124,26 +125,35 @@ sf.canvas = (function() {
       canvas.addEventListener( events.comptroller.unit, loadModel )
       
       /* Canvas preparation */
-      // Assign context
-      ctx = canvas.getContext('2d')
-      // Canvas sizing
-      var wi = window.innerWidth
-      var he = window.innerHeight
-      canvas.style.width = wi + 'px'
-      canvas.style.height= he + 'px'
-      canvas.width  = wi
-      canvas.height = he
-      // DPI
-      adjustDPI()
-      // set up the transformation
-      transform.left = canvas.width  / 2 * 1/isf
-      transform.top  = canvas.height / 2 * 1/isf
-      // Engine
-      // engine = new BABYLON.Engine(canvas, false, {}, false)
+      prepare()
       
-      // Engine: Listen for resize
-      window.addEventListener('resize', function() { /*  */ })
+      // Listen for resize
+      window.addEventListener('resize', function(e) {
+        clearTimeout(resizeLockout)
+        resizeLockout = setTimeout( resize, settings.canvas.resize_lockout )
+      })
     })
+  }
+  
+  let prepare = function() {
+    // Assign context
+    ctx = canvas.getContext('2d')
+    // Canvas sizing
+    var wi = window.innerWidth
+    var he = window.innerHeight
+    canvas.style.width = wi + 'px'
+    canvas.style.height= he + 'px'
+    canvas.width  = wi
+    canvas.height = he
+    // DPI
+    adjustDPI()
+    // set up the transformation
+    transform.left = canvas.width  / 2 * 1/isf
+    transform.top  = canvas.height / 2 * 1/isf
+  }
+  
+  let resize = function() {
+    prepare()
   }
   
   let renderCanvas = async function(e) {
@@ -168,18 +178,11 @@ sf.canvas = (function() {
     renderGrid( data )
     
     // render hero
-    let fighter      = libGet( hero.meta.player_model )
-    let instructions = fighter.compose( hero.meta.player_model_instructions ) // fighter.instructions
-    let targetSize   = settings.game.size_unit
-    let scaling      = targetSize/fighter.height
-
-    libRender( canvas, [
-     { instruction: `translate`, args: [ transform.left, transform.top ] },
-     { instruction: `rotate`, args: [ hero.r ] },
-    ], instructions, [ fighter.width/2 * scaling, fighter.height/2 * scaling] )
-    
+    hero.render( canvas, transform )
     // render units
-    
+    Object.entries(data.units).forEach(([k,v],i) => {
+      v.render( canvas, transform, hero, isf )
+    })
   }
   
   let loadModel = async function(e) {
@@ -299,10 +302,11 @@ sf.canvas = (function() {
   }
 
   return {
-    canvas      : function() { return canvas },
-    camera      : function() { return camera },
-    eye         : function() { return eye    },
-    scene       : function() { return scene  },
-    units       : function() { return units  },
+    canvas      : function() { return canvas    },
+    transform   : function() { return transform },
+    camera      : function() { return camera    },
+    eye         : function() { return eye       },
+    scene       : function() { return scene     },
+    units       : function() { return units     },
   }
 })()

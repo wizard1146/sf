@@ -24,13 +24,13 @@ sf.preloader = (function() {
       'settings',
       'comptroller',
       /* read only */
-      'constructs',
       'svg',
       'css',
       'db',
       'library',
-      'library.xvi_001',
-      'season.001',
+        'library.srb_001',
+        'library.xvi_001',
+      'constructs',
       /* fundamental */
       'canvas',
       'engine',

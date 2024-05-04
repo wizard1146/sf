@@ -14,8 +14,7 @@ sf.engine = (function() {
   let Actor      = sf.constructs.actor
   let loadModel  = sf.canvas.loadModel
   
-  let LEVELS     = sf.season_001.LEVELS
-  let UNITS      = sf.season_001.UNITS
+  let models     = sf.library.retrieve
   
   let events     = sf.comptroller.events()
   let event_initialise = events.preloader.initial
@@ -200,7 +199,7 @@ sf.engine = (function() {
     resetData()
     
     // get level data
-    levelData = LEVELS[`001`]
+    levelData = {enemies:[]}
     
     // generate local map
     generateMap()
@@ -225,7 +224,7 @@ sf.engine = (function() {
     raiseEvent( body, events.engine.click_outward, `engine-start` )
     
     // Load a Level
-    await loadLevel( levelData ) // MODIFY
+    await spawningPool() // MODIFY
   }
   
   let unitLoaded = function(e) {
@@ -259,40 +258,59 @@ sf.engine = (function() {
   let resetData = function() { data = clone(dataTemplate) }
   
   let tick = function(e) {
-    updateHero()
+    // Update Hero
+    let m = data.hero.update()
+            data.hero.updated()
+            data.hero.computeRender(...m)
+	// Update other Units
+    Object.entries(data.units).forEach(([k,v],i) => {
+      let g = v.update()
+              v.updated()
+              v.computeRender(...g)
+    })
+    // Collect garbage
     garbage()
   }
   
-  let loadLevel = function(levelData) {
-    // generate map
-    
-    // generate player
-    let datum  = UNITS['player'] // MODIFY
-        datum.player_model  = settings.game.player_model
-        datum.player_models = settings.game.player_models
-    // grab Player's start position
-    if (levelData.startPosition) { datum.pos = levelData.startPosition }
-    // generate Player
-    let player = generateUnit( datum.key, datum, true )
-    data.hero = player
+  let spawningPool = async function() {
+    // Spawning
+    // Player
+    let player = generateUnit(`player`, {x: settings.game.initial_x, y: settings.game.initial_y, model: `SRB-001`}, true)        
+        data.hero = player
+    // Enemies
+    // Need a generator function here using some kind of consistent internal logic
+    let enemy  = generateUnit(`key`, {x: 844, y: 580, model: `XVi-001`}, false)
+        enemy.enemy = true
+        data.units[enemy.id] = enemy
 
-    // generate units
-    levelData.enemies.forEach(datum => {
-      let enemy = generateUnit( datum.model, datum, false )
-          enemy.enemy = true
-      data.units[enemy.id] = enemy
-    })
-    // 
-    console.log(data)
+    return
   }
   
-  let generateUnit = function( key, datum, isPlayer ) {
-    let meta = UNITS[key]
+  let generateUnit = function( key, datum, isPlayer = false ) {
+    let gen  = isPlayer ? Player   : Actor
+    let m    = isPlayer ? `player` : `unit`
+    let anim = models(datum.model)
+    let unit = new gen(key, {
+      t: m,
+      x: datum.x,
+      y: datum.y,
+      anim    : anim,
+      collider: collider,
+      isPlayer: isPlayer,
+    })
+    
+    raiseEvent( canvas, events.engine.unit, unit )
+    
+    return unit
+  }
+  /*
+  let generateUnit = function( key, datum, isPlayer = false ) {
+    let meta = datum?.meta ? datum?.meta : UNITS[key]
     let gen  = isPlayer ? Player : Actor
     
-    let unit = new gen( isPlayer ? 'hero' : 'unit', {t: isPlayer ? 'player' : 'actor', collider: collider})
-        unit.a.keys = meta.animationKeys
-        unit.meta   = meta
+    let unit = new gen( isPlayer ? 'hero' : 'unit', {t: isPlayer ? 'player' : 'actor', collider: collider, meta: meta})
+        // unit.a.keys = meta.animationKeys
+        unit.meta   = datum?.meta ? datum?.meta : meta
         unit.x = datum?.pos?.x || unit.x
         unit.y = datum?.pos?.y || unit.y
         unit.r = datum?.pos?.r || unit.r
@@ -302,6 +320,7 @@ sf.engine = (function() {
     
     return unit
   }
+  */
 
   let generateMap = function() {
     let sect  = settings.game.size_sector
