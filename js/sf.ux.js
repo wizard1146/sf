@@ -68,7 +68,7 @@ sf.ux = (function() {
         <div id="${settings.hud.id_x}" class="${settings.hud.class_coords} absolute syne-mono text-right text-grey bottom-left"><div class="value"></div></div>
         <div id="${settings.hud.id_y}" class="${settings.hud.class_coords} absolute syne-mono text-right text-grey"><div class="value"></div></div>
         <div id="${settings.hud.id_sector}" class="circle absolute syne-mono text-center text-grey"><div class="value"></div></div>
-        <div id="${settings.hud.id_rotary}" class="circle absolute bottom-right syne-mono text-grey"><div class="draw absolute"></div><div class="value"></div></div>
+        <div id="${settings.hud.id_rotary}" class="circle absolute bottom-right syne-mono text-grey"><div class="draw absolute"><div class="rotary-point absolute left"></div></div><div class="value"></div></div>
       </div>
     `, submain)
     hud  = qset( `#${settings.hud.id_main}`)

@@ -360,6 +360,12 @@ sf.css = (function() {
       border    : ${s_hud.rotary_border};
       border-radius: ${s_hud.rotary_dial_border_radius};
     }
+    #${s_hud.id_rotary} .rotary-point {
+      width     : 6px;
+      height    : 6px;
+      transform : translate( -50%, 0% ) rotate(45deg);
+      background: ${s_hud.rotary_pointer_color};
+    }
     /* Combat HUD */
     #${s_hud.id_weapon_01},
     #${s_hud.id_weapon_02} {

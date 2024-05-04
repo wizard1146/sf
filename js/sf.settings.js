@@ -144,14 +144,15 @@ sf.settings = (function() {
       coordinatesXY_xBottom : `calc(180px - 2.1ch)`,
       coordinatesXY_xLeft   : `0px`,
       // FPS
-      fps_offset_x  : `1.44ch`,
-      fps_offset_y  : `0.33ch`,
+      fps_offset_x  : `1.67ch`,
+      fps_offset_y  : `0.93ch`,
       fps_opacity   : `0.44`,
       // Rotary
-      rotary_border    : `1px dotted rgba( 141, 141, 169, 0.33 )`,
+      rotary_border    : `0px dotted rgba( 141, 141, 169, 0.0 )`,
       rotary_opacity   : `0.6`,
-      rotary_dial_width: `3px`,
-      rotary_dial_border_radius: `3px`,
+      rotary_dial_width: `0px`,
+      rotary_dial_border_radius: `0px`,
+      rotary_pointer_color     : `rgba( 212, 67, 67, 1.00 )`,
       // Weapons
       w_button_size    : `1.8ch`,
       w_button_border  : `1px dashed rgba( 144, 144, 189, 0.67 )`,

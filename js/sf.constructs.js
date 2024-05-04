@@ -265,7 +265,7 @@ sf.constructs = (function() {
       let alter = this.anim.instructions.length == 0 ? true : false
       let pm    = this.anim.thrust
       
-      if (this.isPlayer) document.querySelector(`#${settings.hud.id_dev}`).textContent = changed + ' , ' + inverted + ' , ' + deltaRotation + ' , ' + deltaR + ' , ' + deltaHeading + ' , ' + deltaH
+      // if (this.isPlayer) document.querySelector(`#${settings.hud.id_dev}`).textContent = changed + ' , ' + inverted + ' , ' + deltaRotation + ' , ' + deltaR + ' , ' + deltaHeading + ' , ' + deltaH
       // Thrust animation
       if (deltaV || deltaRotation != 0) {
         alter = true
@@ -289,20 +289,13 @@ sf.constructs = (function() {
       }
       instructions = instructions.filter(i => i.length > 0)
       // Rotation animation
+      let r = ``
       if (deltaH != 0) {
         alter = true
         if (deltaH < 0) {
-          if (Math.abs(deltaHeading) < tfa) {
-            instructions.push( `right_thrust` )
-          } else {
-            instructions.push( `right_hard_thrust` )
-          }
+          r = Math.abs(deltaHeading) < tfa ? `right_thrust` : `right_hard_thrust`
         } else if (deltaH > 0) {
-          if (Math.abs(deltaHeading) < tfa) {
-            instructions.push( `left_thrust` )
-          } else {
-            instructions.push( `left_hard_thrust` )
-          }
+          r = Math.abs(deltaHeading) < tfa ? `left_thrust` : `left_hard_thrust`
         }
       } else if (deltaR != 0
         && Math.abs(deltaR) > ta
@@ -311,12 +304,9 @@ sf.constructs = (function() {
         && this.v.m != 0) 
       {
         alter = true
-        if (deltaR < 0) {
-          instructions.push( `right_thrust` )
-        } else if (deltaR > 0) {
-          instructions.push( `left_thrust` )
-        }
+        r = deltaR < 0 ? `right_thrust` : `left_thrust`
       }
+      if (r.length) instructions.push( r )
       if (alter) this.anim.instructions = instructions
     }
     render(canvas, transform, player, scaleFactor) {
