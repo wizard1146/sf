@@ -154,6 +154,40 @@ sf.engine = (function() {
               v.updated()
               v.computeRender(...g)
     })
+    
+    // Update
+    collider.update()
+    
+    /*
+       Handle destructibles first
+       Then handle player
+       Then handle other units
+     */
+    
+    // Handle destructibles first
+    
+    // Then handle player
+    let r = collider.createResult()
+    let p = data.hero.collisionObject.potentials()
+    for (const b of p) {
+      if (data.hero.collisionObject.collides(b, r)) {
+        data.hero.collisionObject.x -= r.overlap * r.overlap_x
+        data.hero.collisionObject.y -= r.overlap * r.overlap_y
+        data.hero.x = data.hero.collisionObject.x
+        data.hero.y = data.hero.collisionObject.y
+      }
+    }
+
+    // Then handle other units
+    Object.entries(data.units).forEach(([k,v],i) => {
+      let g = v.collisionObject.potentials()
+      for (const b of g) {
+        if (v.collisionObject.collides(b)) {
+        
+        }
+      }
+    })
+    
     // Collect garbage
     garbage()
   }

@@ -52,35 +52,7 @@ sf.constructs = (function() {
     }
   }
 
-  class Collidable extends Artefact {
-    constructor(key, options) {
-      super(key, options)
-
-      const w = options ? (options?.w ? options?.w : settings.game.size_unit) : settings.game.size_unit
-      
-      const bounds = [
-        [-1 * w/2, -1 * w/2],
-        [ 1 * w/2, -1 * w/2],
-        [ 1 * w/2,  1 * w/2],
-        [-1 * w/2,  1 * w/2],
-      ]
-      this.collisionObject = options.collider.createPolygon(this.x, this.y, bounds)
-    }
-    renderCollider( canvas, transformation ) {
-      
-    }
-  }
-
-  class Movable extends Collidable {
-    constructor(key, options) {
-      super(key, options)
-      this.deltaX = 0
-      this.deltaY = 0
-      this.deltaRotation = 0
-    }
-  }
-
-  class Tile extends Collidable {
+  class Tile extends Artefact {
     constructor(mx, my, size_sector, options) {
       const key = `sector_MX${mx}_MY${my}`
       super(key, options)
@@ -127,6 +99,63 @@ sf.constructs = (function() {
       let n = this.getNeighbours()
       // https://stackoverflow.com/a/72315001
       return n.filter((sn) => !Object.keys(knownSectors).find((nsn) => sn === nsn))
+    }
+  }
+
+  class Collidable extends Artefact {
+    constructor(key, options) {
+      super(key, options)
+
+      const w = options ? (options?.w ? options?.w : settings.game.size_unit) : settings.game.size_unit
+      
+      let wf = 3
+      let hf = 2
+      this.bounds = [
+        [-1 * w/wf, -1 * w/hf],
+        [ 1 * w/wf, -1 * w/hf],
+        [ 1 * w/wf,  1 * w/hf],
+        [-1 * w/wf,  1 * w/hf],
+      ]
+      this.collisionObject = options.collider.createPolygon(this.x, this.y, this.bounds)
+    }
+    setColliderScale( scale ) {
+      this.colliderScale = scale
+      this.collisionObject.scale_x = scale
+      this.collisionObject.scale_y = scale
+    }
+    renderCollider( canvas, transform, player, scaleFactor ) {
+      let t = [
+        { instruction: `translate`, args: [ transform.left, transform.top ] },
+        { instruction: `rotate`,    args: [ this.r ] },
+      ]
+      if (!this.isPlayer) t.push({ instruction: `translate`, args: [ (this.x - player.x)/scaleFactor, (-this.y - -player.y)/scaleFactor ] })
+      
+      let ctx = canvas.getContext('2d')
+      let bounds = this.bounds
+      ctx.closePath()
+      ctx.save()
+      t.forEach(transform => {
+        ctx[transform.instruction]( ...transform.args )
+      })
+      ctx.moveTo( bounds[0][0], bounds[0][1] )
+      this.bounds.forEach(point => {
+        ctx.lineTo( point[0], point[1] )
+      })
+      ctx.lineTo( bounds[0][0], bounds[0][1] )
+      ctx.stroke()
+      ctx.closePath()
+      ctx.restore()
+      ctx.strokeStyle = '#000'
+      ctx.fillStyle   = '#000'
+    }
+  }
+
+  class Movable extends Collidable {
+    constructor(key, options) {
+      super(key, options)
+      this.deltaX = 0
+      this.deltaY = 0
+      this.deltaRotation = 0
     }
   }
 
@@ -238,6 +267,14 @@ sf.constructs = (function() {
         this.deltaHeading = 0
         changed = true
       }
+      
+      /*** Update Collision Object ***/
+      if (this?.collisionObject) {
+        this.collisionObject.x = this.x
+        this.collisionObject.y = this.y
+        this.collisionObject.angle = -this.r
+      }
+      
       // Save data
       let deltaV = this.xv.m != this.v.m
       this.xv = clone(this.v)
@@ -308,8 +345,7 @@ sf.constructs = (function() {
       ]
       if (!this.isPlayer) {
         mods.push({ instruction: `translate`, args: [ (this.x - player.x)/scaleFactor, (-this.y - -player.y) / scaleFactor ] })
-      } else {
-      } 
+      }
       
       librender( canvas, mods, i, [ m.width/2 * f, m.height/2 * f ] )
     }

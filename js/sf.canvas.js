@@ -27,80 +27,6 @@ sf.canvas = (function() {
   let isf;
   let transform = { left: 0, top : 0 };
   let resizeLockout;
-
-
-  let createScene = function(options) {
-  
-    return scene
-  }
-  
-  class UnitModel {
-    constructor(datum, payload) {
-      Object.entries(datum).forEach(([k,v],i) => {
-        this[k] = v
-        if (k === 'meshes') this.actual = v[0]
-      })
-      this.uuid = payload?.id ? payload?.id : uuid()
-      // animation data
-      this.animation = null
-      this.anim = {}
-      this.anim.current = ``
-      // save meta information from payload
-      if (payload?.animationKeys) this.anim.keys = payload?.animationKeys
-      
-      // meta information
-      this.meta = {}
-      this.meta.scale = 1
-
-      this.showAxes()
-
-      // save it to the module
-      units[this.uuid] = this
-    }
-    // Helper Tools
-    showGrid() {
-      if (this?.axes) this.axes.dispose()
-      
-    }
-    // Geo Controllers
-    moveTo(x, y, z = 0) {
-      this.actual.position = new BABYLON.Vector3( x, z, y )
-    }
-    rotateTo( r ) {
-      this.actual.rotation.y = r
-    }
-    scaleTo(scale) {
-      this.meta.scale = scale
-      this.actual.scaling.scaleInPlace( this.meta.scale )
-      this.showAxes()
-    }
-    rotateTo(degrees) {
-      this.actual.rotate(BABYLON.Axis.Y, degrees, BABYLON.Space.LOCAL)
-    }
-    rotateBy(degrees) {
-
-    }
-    // Animation Controllers
-    AnimateStop() {
-      if (this.animation) this.animation.stop(); this.animation = null;
-    }
-    AnimateSpecific(animation) {
-      this.AnimateStop()
-      let g = this.animationGroups
-      let f = g.filter(a => a.name == animation)
-      if (f.length) {
-        this.anim.current = animation
-        this.animation = f[0]
-        this.animation.start( true, 1 )
-      }
-    }
-    AnimateIdle() {
-      if (this.anim.keys) this.AnimateSpecific(this.anim.keys.idle)
-    }
-    AnimateWalk() {
-      if (this.anim.keys) this.AnimateSpecific(this.anim.keys.walk)
-    }
-  }
   
   
   // Initialisation listener
@@ -159,8 +85,7 @@ sf.canvas = (function() {
   let renderCanvas = async function(e) {
     // Unhide canvas
     canvas.classList.remove('hidden')
-    // Create scene
-    scene = await createScene()
+    
     // Listen to Comptroller tick
     main.addEventListener( events.comptroller.tick, tick )
   }
@@ -177,11 +102,21 @@ sf.canvas = (function() {
     // render grid
     renderGrid( data )
     
+    // inform the collision models of the ISF
+    if (data?.hero && !data?.hero?.colliderScale) {
+       data.hero.setColliderScale( isf )
+       Object.entries(data.units).forEach(([k,v],i) => {
+         v.setColliderScale( isf )
+       })
+    }
+    
     // render hero
     hero.render( canvas, transform )
+    hero.renderCollider( canvas, transform )
     // render units
     Object.entries(data.units).forEach(([k,v],i) => {
       v.render( canvas, transform, hero, isf )
+      v.renderCollider( canvas, transform, hero, isf )
     })
   }
   
