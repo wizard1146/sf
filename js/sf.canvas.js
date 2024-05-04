@@ -15,6 +15,7 @@ sf.canvas = (function() {
   
   /* Settings */
   let settings   = sf.settings.get()
+  let dev        = settings.developer.active
 
   /* Events */
 
@@ -112,11 +113,11 @@ sf.canvas = (function() {
     
     // render hero
     hero.render( canvas, transform )
-    hero.renderCollider( canvas, transform )
+    if (dev) hero.renderCollider( canvas, transform )
     // render units
     Object.entries(data.units).forEach(([k,v],i) => {
       v.render( canvas, transform, hero, isf )
-      v.renderCollider( canvas, transform, hero, isf )
+      if (dev) v.renderCollider( canvas, transform, hero, isf )
     })
   }
   
