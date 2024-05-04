@@ -53,8 +53,6 @@ sf.engine = (function() {
     let dg = hero.v.r - hero.r
     let dh = dg == 0 ? 0 : (dg + Math.PI) % (2*Math.PI) - Math.PI
     
-    // document.querySelector(`#${settings.hud.id_dev} .value`).textContent = dh.toFixed(2)
-      
     if ( -settings.game.forward_angle <= dh && dh <= settings.game.forward_angle ) {
       inversion = false
     } else {
@@ -66,6 +64,8 @@ sf.engine = (function() {
     hero.deltaRotation = hero.vr - hero.r
     let de = hero.deltaRotation == 0 ? 0 : (hero.deltaRotation + Math.PI) % (2*Math.PI) - Math.PI
     let df = -1 * (de > 0 ? -1 : 1) * Math.min( settings.game.speed_rotation_limit, Math.abs(de) )
+    
+    document.querySelector(`#${settings.hud.id_dev} .value`).textContent = de.toFixed(2) + ' , ' + df.toFixed(2) + ' , ' + hero.v.r.toFixed(2) + ', ' + hero.r.toFixed(2) + ' , ' + dh.toFixed(2)
     
     // resolve deltas
     if (hero.deltaX != 0) {
@@ -164,7 +164,6 @@ sf.engine = (function() {
       }
     }
     if (alter) hero.meta.player_model_instructions = instructions
-    
     // save
     hero.xv = clone(hero.v)
   }

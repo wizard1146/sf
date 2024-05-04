@@ -76,6 +76,7 @@ sf.input = (function() {
   }
 
   return {
-
+    dir: function() { return jsDir },
+    aim: function() { return jsAim },
   }
 })()

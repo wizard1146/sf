@@ -29,6 +29,7 @@ sf.preloader = (function() {
       'css',
       'db',
       'library',
+      'library.xvi_001',
       'season.001',
       /* fundamental */
       'canvas',

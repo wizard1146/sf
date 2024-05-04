@@ -326,6 +326,13 @@ let Joy = (function() {
     getHeight()  { return this.canvas.height }
     getOffsetX() { return this.offsetX }
     getOffsetY() { return this.offsetY }
+    
+    update(x,y) {
+      this.rx = x
+      this.ry = y
+      this.render()
+      this.callback(this.payload())
+    }
   }
 
   return {
