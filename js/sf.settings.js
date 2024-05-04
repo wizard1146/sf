@@ -57,8 +57,13 @@ sf.settings = (function() {
     },
     game: {
       // Settings
-      fps           : 60,
-      size_unit     : 38, // 300, // 36,
+      tps           : 120, // comptroller master clock ticks per second
+      // The following settings have to be multiples of the Comptroller as we are running a single requestAnimationFrame trigger only
+      cps           : 120, // engine calculations per second (adjusting this will affect game things like fighter speed etc
+      fps           : 120, // frames drawn per second (can reduce this to 60 fps)
+
+      // Others 
+      size_unit     : 38, // 300, // 38,
       default_model : `SRB-001`,
       player_model  : `XVi-001`, // `SRB-001`,
       player_models : [
@@ -68,7 +73,7 @@ sf.settings = (function() {
         {velocity: -40, model: `reverse_01`},
         {velocity: -85, model: `reverse_02`},
       ],
-      speed_limiter : 11.1,
+      speed_limiter : 21.1,
       speed_reverse : 0.83,
       speed_refactor: 1,
       speed_rotation_limit: 3.1/360 * Math.PI * 2,

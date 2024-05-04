@@ -7,7 +7,7 @@ sf.comptroller = (function() {
   let raiseEvent = sf.utilities.raiseEvent
   
   let settings   = sf.settings.get()
-  let fps        = sf.settings.get('fps')
+  let fps        = sf.settings.get('tps')
   
   let inject     = function(str, tar) { let t = tar ? tar : body; t.insertAdjacentHTML('beforeend', str) }
   
@@ -83,6 +83,11 @@ sf.comptroller = (function() {
       this.now   = 0
       this.then  = 0
       this.gone  = 0
+      
+      // FPS calculation
+      this.samples      = []
+      this.sample_index = 0
+      this.sample_size  = 300
       
       this.prepare()
     }

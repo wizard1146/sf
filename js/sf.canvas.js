@@ -29,6 +29,9 @@ sf.canvas = (function() {
   let transform = { left: 0, top : 0 };
   let resizeLockout;
   
+  let tps  = sf.settings.get(`tps`)
+  let fps  = sf.settings.get(`fps`)
+  let tfr  = tps / fps
   
   // Initialisation listener
   body = qset(`body`)
@@ -91,7 +94,8 @@ sf.canvas = (function() {
     main.addEventListener( events.comptroller.tick, tick )
   }
   
-  let tick = function() {
+  let tick = function(e) {
+    if (e.detail[0] % tfr != 0) { return }
     // update scene
     let data  = sf.engine.data()
     let hero  = data.hero

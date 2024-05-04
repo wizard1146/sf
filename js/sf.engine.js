@@ -36,6 +36,10 @@ sf.engine = (function() {
     settings: {},
   }
   /* Computational variables */
+  let tps           = sf.settings.get(`tps`)
+  let cps           = sf.settings.get(`cps`)
+  let tcr           = tps / cps
+  
   let sga = settings.engine.garbage_tile_age
   
   /* Update Functions */
@@ -130,6 +134,7 @@ sf.engine = (function() {
   let resetData = function() { data = clone(dataTemplate) }
   
   let tick = function(e) {
+    if (e.detail[0] % tcr != 0) { return }
     // Update Hero
     let m = data.hero.update()
     let n = data.hero.updated()

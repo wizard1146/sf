@@ -226,6 +226,7 @@ sf.css = (function() {
       width          : ${s_mmenu.modal_settings_width};
       height         : ${s_mmenu.modal_settings_height};
       max-height     : 92%;
+      max-width      : 92%;
     }
     #${s_app.id_mmenu_quit} .backing,
     #${s_app.id_mmenu_quit} .value {
