@@ -5,7 +5,7 @@ sf.settings = (function() {
 
   let settings = {
     developer: {
-      active       : true,
+      active       : false,
       display_XYZ  : true,
       unplug_splash: true,
     },
