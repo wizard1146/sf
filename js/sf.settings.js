@@ -58,7 +58,7 @@ sf.settings = (function() {
     game: {
       // Settings
       fps           : 60,
-      size_unit     : 36, // 300, // 36,
+      size_unit     : 38, // 300, // 36,
       default_model : `SRB-001`,
       player_model  : `XVi-001`, // `SRB-001`,
       player_models : [

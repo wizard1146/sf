@@ -257,15 +257,16 @@ sf.constructs = (function() {
       // Return
       return [changed, inverted, deltaV, deltaRotation, deltaR, deltaHeading, deltaH]
     }
-    computeRender(changed, inverted, deltaV,deltaRotation, deltaR, deltaHeading, deltaH) {
-      let ta    = settings.game.turning_angle
-      let tfa   = settings.game.turning_f_angle
+    computeRender(changed, inverted, deltaV, deltaRotation, deltaR, deltaHeading, deltaH) {
+      let ta    = settings.game.turn_angle
+      let tfa   = settings.game.turn_f_angle
       /* Set the model instructions */
       let instructions = [`base`]
       let alter = this.anim.instructions.length == 0 ? true : false
       let pm    = this.anim.thrust
       
-      if (this.isPlayer) document.querySelector(`#${settings.hud.id_dev}`).textContent = this.xv.m + ' , ' + this.v.m
+      if (this.isPlayer) document.querySelector(`#${settings.hud.id_dev}`).textContent = changed + ' , ' + inverted + ' , ' + deltaRotation + ' , ' + deltaR + ' , ' + deltaHeading + ' , ' + deltaH
+      // Thrust animation
       if (deltaV || deltaRotation != 0) {
         alter = true
         if (!inverted) {
@@ -287,6 +288,7 @@ sf.constructs = (function() {
         }
       }
       instructions = instructions.filter(i => i.length > 0)
+      // Rotation animation
       if (deltaH != 0) {
         alter = true
         if (deltaH < 0) {
@@ -305,7 +307,8 @@ sf.constructs = (function() {
       } else if (deltaR != 0
         && Math.abs(deltaR) > ta
         && Math.abs(deltaR) < (Math.PI - ta)
-        && this.v.m >= pm[pm.length-1].velocity) 
+        && this.v.m >= pm[pm.length-1].velocity
+        && this.v.m != 0) 
       {
         alter = true
         if (deltaR < 0) {
