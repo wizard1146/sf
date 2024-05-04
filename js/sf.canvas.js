@@ -193,44 +193,6 @@ sf.canvas = (function() {
       image: new Image(),
     }
     raiseEvent( canvas, events.canvas.unit_loaded, unit )
-    
-    /*
-    unit.image.src = `assets/arrow.png`
-    
-    unit.image.onload = function() {
-      // notify Comptroller
-      raiseEvent( canvas, events.canvas.unit_loaded, unit )
-    }
-    
-    // save the model 
-    units[unit.uuid] = unit
-    if (datum.isPlayer) {
-      player = unit
-    }
-    */
-    
-    /*
-    let datum = e.detail
-    let uri   = `assets/${datum.meta.uri}/scene.gltf`
-
-    let obj = await BABYLON.SceneLoader.ImportMeshAsync('', uri, '', scene)
-    let unit = new UnitModel(obj, {id: datum.id, animationKeys: datum.meta.animationKeys})
-    
-    if (datum?.meta?.scale) unit.scaleTo( datum?.meta?.scale )
-    if (typeof datum?.x != 'undefined' && typeof datum?.y != 'undefined') unit.moveTo( datum?.x, datum?.y )
-    if (datum?.r) unit.rotateTo( datum?.r )
-    
-    // default animation
-    unit.AnimateIdle()
-    
-    // save the model 
-    units[unit.uuid] = unit
-    if (datum.isPlayer) {
-    
-    }
-    */
-    // notify Comptroller
-    // raiseEvent( canvas, events.canvas.unit_loaded, unit )
   }
   
   let renderHero = function(data) {

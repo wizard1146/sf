@@ -36,137 +36,9 @@ sf.engine = (function() {
     settings: {},
   }
   /* Computational variables */
-  let snt = settings.game.sector_name_template
   let sga = settings.engine.garbage_tile_age
   
   /* Update Functions */
-  let updateHero = function() {
-    let hero = data.hero
-    let changed = false
-    // add velocity
-    let magnitude = hero.v.m
-    let rotation  = hero.v.r
-    
-    // estimate inversion
-    let inversion = false
-    let dg = hero.v.r - hero.r
-    let dh = dg == 0 ? 0 : (dg + Math.PI) % (2*Math.PI) - Math.PI
-    
-    if ( -settings.game.forward_angle <= dh && dh <= settings.game.forward_angle ) {
-      inversion = false
-    } else {
-      inversion = true
-    }
-    
-    hero.deltaX = hero.v.x / settings.game.speed_limiter * (inversion ? settings.game.speed_reverse : 1)
-    hero.deltaY = hero.v.y / settings.game.speed_limiter * (inversion ? settings.game.speed_reverse : 1)
-    hero.deltaRotation = hero.vr - hero.r
-    let de = hero.deltaRotation == 0 ? 0 : (hero.deltaRotation + Math.PI) % (2*Math.PI) - Math.PI
-    let df = -1 * (de > 0 ? -1 : 1) * Math.min( settings.game.speed_rotation_limit, Math.abs(de) )
-    
-    document.querySelector(`#${settings.hud.id_dev} .value`).textContent = de.toFixed(2) + ' , ' + df.toFixed(2) + ' , ' + hero.v.r.toFixed(2) + ', ' + hero.r.toFixed(2) + ' , ' + dh.toFixed(2)
-    
-    // resolve deltas
-    if (hero.deltaX != 0) {
-      hero.x += hero.deltaX
-      hero.deltaX = 0
-      changed = true
-    }
-    if (hero.deltaY != 0) {
-      hero.y += hero.deltaY
-      hero.deltaY = 0
-      changed = true
-    }
-    if (hero.deltaRotation != 0) {
-      // let de = (hero.deltaRotation + Math.PI) % (2*Math.PI) - Math.PI
-      hero.deltaR = de
-      
-      hero.r += df // -1 * (de > 0 ? -1 : 1) * Math.min( settings.game.speed_rotation_limit, Math.abs(de) )
-      hero.r  = hero.r % (2 * Math.PI)
-      hero.deltaRotation = 0
-      changed = true
-    }
-    
-    /* Updates */
-    if (changed) {
-      // Update the hero's sector, and generate unmade adjacent tiles
-      let osn = hero.sector.name
-      hero.sector = hero.getSector()
-      if (osn != hero.sector.name) {
-        // generate unmade neighbour tiles
-        let missing = data.sectors[hero.sector.name].getUnmadeNeighbours( data.sectors )
-        if (missing.length) {
-          missing.forEach(tile => {
-            let m = tile.match(snt)
-            let x = parseInt(m[1])
-            let y = parseInt(m[2])
-            let t = new Tile( x, y, settings.game.size_sector, {mx: x, my: y, collider: collider})
-            data.sectors[t.k] = t
-          })
-        }
-      }
-    }
-    
-    /* Set the model instructions */
-    let instructions = [`base`]
-    let alter = hero.meta.player_model_instructions.length == 0 ? true : false
-    let pm = hero.meta.player_models
-    
-    
-    if (hero.xv.m != hero.v.m || dg != 0) {
-      alter = true
-      if (!inversion) {
-        for (var i = 0; i < pm.length; i++) {
-          let f = pm[i]
-          if (hero.v.m >= f.velocity) {
-            instructions.push( f.model )
-            break
-          }
-        }
-      } else {
-        for (var i = pm.length - 1; i > -1; i--) {
-          let f = pm[i]
-          if (hero.v.m >= Math.abs(f.velocity)) {
-            if (f.model.length) {
-              instructions.push( `offwing_reverse` )
-              instructions.push( f.model )
-            }
-            break
-          }
-        }
-      }
-    }
-    instructions = instructions.filter(i => i.length > 0)
-    
-    // Prioritise rotation
-    if (df != 0) {
-      alter = true
-      if (df < 0) {
-        if (Math.abs(de) < settings.game.turn_f_angle) {
-          instructions.push( `right_thrust` )
-        } else {
-          instructions.push( `right_hard_thrust` )
-        }
-      } else if (df > 0) {
-        if (Math.abs(de) < settings.game.turn_f_angle) {
-          instructions.push( `left_thrust` )
-        } else {
-          instructions.push( `left_hard_thrust` )
-        }
-      }
-    } else if (dh != 0 && Math.abs(dh) > settings.game.turn_angle && Math.abs(dh) < (Math.PI - settings.game.turn_angle) && hero.v.m >= pm[pm.length-1].velocity) { // then resolve-ish forward vector
-      alter = true
-      if (dh < 0) {
-        instructions.push( `right_thrust` )
-      } else if (dh > 0) {
-        instructions.push( `left_thrust` )
-      }
-    }
-    if (alter) hero.meta.player_model_instructions = instructions
-    // save
-    hero.xv = clone(hero.v)
-  }
-  
   // Initialisation listener
   body = qset('body')
   body.addEventListener( event_initialise, function(e) {
@@ -260,8 +132,22 @@ sf.engine = (function() {
   let tick = function(e) {
     // Update Hero
     let m = data.hero.update()
-            data.hero.updated()
-            data.hero.computeRender(...m)
+    let n = data.hero.updated()
+    let o = data.hero.sector.name
+    if (n && n != o) {
+      let missing = data.sectors[o].getUnmadeNeighbours( data.sectors )
+      if (missing.length) {
+        missing.forEach(tile => {
+          let m = tile.match( settings.game.sector_name_template )
+          let x = parseInt( m[1] )
+          let y = parseInt( m[2] )
+          let t = new Tile( x, y, settings.game.size_sector, {mx: x, my: y, collider: collider} )
+          data.sectors[t.k] = t
+        })
+      }
+    }
+    data.hero.computeRender(...m)
+
 	// Update other Units
     Object.entries(data.units).forEach(([k,v],i) => {
       let g = v.update()
@@ -303,24 +189,6 @@ sf.engine = (function() {
     
     return unit
   }
-  /*
-  let generateUnit = function( key, datum, isPlayer = false ) {
-    let meta = datum?.meta ? datum?.meta : UNITS[key]
-    let gen  = isPlayer ? Player : Actor
-    
-    let unit = new gen( isPlayer ? 'hero' : 'unit', {t: isPlayer ? 'player' : 'actor', collider: collider, meta: meta})
-        // unit.a.keys = meta.animationKeys
-        unit.meta   = datum?.meta ? datum?.meta : meta
-        unit.x = datum?.pos?.x || unit.x
-        unit.y = datum?.pos?.y || unit.y
-        unit.r = datum?.pos?.r || unit.r
-        unit.isPlayer = isPlayer
-    
-    raiseEvent( canvas, events.engine.unit, unit )
-    
-    return unit
-  }
-  */
 
   let generateMap = function() {
     let sect  = settings.game.size_sector

@@ -8,29 +8,18 @@ sf.constructs = (function() {
   let librender = sf.library.render
   
   /* Module Settings & Events */
-  let settings = sf.settings.get()
+  let settings  = sf.settings.get()
   
   /* Memory */
   
   /* Computational variables */
 
-
   /* Meta Constructs */
-  class Level {
-    constructor(options) {
-      this.enemies = options?.enemies ? options?.enemies : []
-      this.startPosition = options?.startPosition ? options?.startPosition : {x: 0, y: 0}
-    }
-  }
-  
-  /* WebGL Constructs */
   class Unit {
     constructor(options) {
       this.key   = options.key
       this.uri   = options.uri
       this.scale = options?.scale ? options?.scale : 1.0
-      // this.animationKeys = options?.animationKeys
-      // this.sprite = options?.sprite
       
       // representation
       this.player_model = ``
@@ -52,10 +41,6 @@ sf.constructs = (function() {
         t: 'undefined',
         s: Math.random(),
         r: 0,
-        /*
-        a: {
-          key  : '',
-        },*/
       }
       Object.entries(args).forEach(([k,v],i) => {
         if (options && options[k]) {
@@ -65,7 +50,6 @@ sf.constructs = (function() {
         }
       })
     }
-    /* Animation Controllers */
   }
 
   class Collidable extends Artefact {
@@ -81,6 +65,9 @@ sf.constructs = (function() {
         [-1 * w/2,  1 * w/2],
       ]
       this.collisionObject = options.collider.createPolygon(this.x, this.y, bounds)
+    }
+    renderCollider( canvas, transformation ) {
+      
     }
   }
 
@@ -339,21 +326,6 @@ sf.constructs = (function() {
         return osn
       }
       return false
-      /* Move to Engine
-      if (osn != this.sector.name) {
-        // Generate unmade neighbours
-        let missing = data.sectors[this.sector.name].getUnmadeNeighbours( data.sectors )
-        if (missing.length) {
-          missing.forEach(tile => {
-            let m = tile.match(snt)
-            let x = parseInt(m[1])
-            let y = parseInt(m[2])
-            let t = new Tile( x, y, settings.game.size_sector, {mx: x, my: y, collider: collider})
-            data.sectors[t.k] = t
-          })
-        }
-      }
-      */
     }
   }
   
@@ -373,7 +345,6 @@ sf.constructs = (function() {
 
   return {
     /* Metadata constructs */
-    Level : Level,
     /* WebGL constructs */
     Unit  : Unit,
     /* Engine constructs */
