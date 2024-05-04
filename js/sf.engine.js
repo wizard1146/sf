@@ -195,11 +195,11 @@ sf.engine = (function() {
   let spawningPool = async function() {
     // Spawning
     // Player
-    let player = generateUnit(`player`, {x: settings.game.initial_x, y: settings.game.initial_y, model: `SRB-001`}, true)        
+    let player = generateUnit(`player`, {x: settings.game.initial_x, y: settings.game.initial_y, model: `XVi-001`}, true)        
         data.hero = player
     // Enemies
     // Need a generator function here using some kind of consistent internal logic
-    let enemy  = generateUnit(`key`, {x: 844, y: 580, model: `XVi-001`}, false)
+    let enemy  = generateUnit(`key`, {x: 844, y: 580, model: `SRB-001`}, false)
         enemy.enemy = true
         data.units[enemy.id] = enemy
 

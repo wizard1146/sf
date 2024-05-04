@@ -7,11 +7,11 @@ sf.library.register(`XVi-001`, {
     return {
       model        : this.name,
       thrust: [
-        {velocity:  85, instructionKey: `forward_02`},
-        {velocity:  40, instructionKey: `forward_01`},
-        {velocity:   0, instructionKey: `base`},
-        {velocity: -40, instructionKey: `reverse_01`},
-        {velocity: -85, instructionKey: `reverse_02`},
+        { velocity:  85, instructionKeys: [`forward_02`] },
+        { velocity:  40, instructionKeys: [`forward_01`] },
+        { velocity:   0, instructionKeys: [`base`] },
+        { velocity: -40, instructionKeys: [`offwing_reverse`,`reverse_01`] },
+        { velocity: -85, instructionKeys: [`offwing_reverse`,`reverse_02`] },
       ],
       turns: {
         soft:  7.5 * Math.PI/180,
