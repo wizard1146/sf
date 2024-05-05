@@ -23,13 +23,15 @@ sf.preloader = (function() {
       /* introductory */
       'settings',
       'comptroller',
+      'dev',
       /* read only */
       'svg',
       'css',
       'db',
       'library',
-        'library.srb_001',
-        'library.xvi_001',
+        'library.ship.srb_001',
+        'library.ship.xvi_001',
+        'library.projectile.SCIP',
       'constructs',
       /* fundamental */
       'canvas',

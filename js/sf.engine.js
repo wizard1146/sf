@@ -12,6 +12,10 @@ sf.engine = (function() {
   let Tile       = sf.constructs.tile
   let Player     = sf.constructs.player
   let Actor      = sf.constructs.actor
+  let Projectile = sf.constructs.projectile
+  
+  let dev        = sf.dev
+  
   let loadModel  = sf.canvas.loadModel
   
   let models     = sf.library.retrieve
@@ -30,17 +34,20 @@ sf.engine = (function() {
   // Main data output
   let data;
   let dataTemplate = {
-    hero    : {},
-    units   : {},
-    sectors : {},
-    settings: {},
+    hero       : {},
+    units      : {},
+    projectiles: {},
+    sectors    : {},
+    settings   : {},
   }
   /* Computational variables */
-  let tps           = sf.settings.get(`tps`)
-  let cps           = sf.settings.get(`cps`)
-  let tcr           = tps / cps
+  let tps = sf.settings.get(`tps`)
+  let cps = sf.settings.get(`cps`)
+  let tcr = tps / cps
+  let scf = 1; // scaling factor for Player Height => settings.game.size_unit
   
-  let sga = settings.engine.garbage_tile_age
+  let gta = settings.engine.garbage_tile_age
+  let gpa = settings.engine.garbage_projectile_age
   
   /* Update Functions */
   // Initialisation listener
@@ -180,6 +187,7 @@ sf.engine = (function() {
         data.hero.collisionObject.y -= r.overlap * r.overlap_y
         data.hero.x = data.hero.collisionObject.x
         data.hero.y = data.hero.collisionObject.y
+        // console.log(b, r)
       }
     }
 
@@ -193,6 +201,42 @@ sf.engine = (function() {
       }
     })
     
+    // Working
+    c = typeof c != 'undefined' ? c : 0
+    if (e.detail[0] % 140 == 0 && c < 28) {
+      // console.log('fire')
+      c++
+      let bullet = generateProjectile( `SCIP`, {
+        model: `SCIP`,
+        x : 800,
+        y : 0,
+        r : -Math.PI/2,
+        fm: 881.18,
+        fr: -Math.PI/2,
+        sx   : 800,
+        sy   : 0,
+        range: 1800,
+        collider: collider,
+      }, false)
+      data.projectiles[bullet.id] = bullet
+    }
+	// Update Projectiles
+    Object.entries(data.projectiles).forEach(([k,v],i) => {
+      let g = v.update()
+              v.updated()
+              v.computeRender(...g)
+    })
+    // Collision
+    Object.entries(data.projectiles).forEach(([k,v],i) => {
+      let rb = collider.createResult()
+      let g  = v.collisionObject.potentials()
+      for (const b of g) {
+        if (v.collisionObject.collides(b)) {
+          // console.log(b)
+        }
+      }
+    })
+    
     // Collect garbage
     garbage()
   }
@@ -200,29 +244,68 @@ sf.engine = (function() {
   let spawningPool = async function() {
     // Spawning
     // Player
-    let player = generateUnit(`player`, {x: settings.game.initial_x, y: settings.game.initial_y, model: `XVi-001`}, true)        
+    let player = generateUnit(`player`, {x: settings.game.initial_x, y: settings.game.initial_y, model: `SRB-001`}, true)        
         data.hero = player
+        
+    // Update the scaling factor
+    scf = settings.game.size_unit / player.anim.height
+    
     // Enemies
     // Need a generator function here using some kind of consistent internal logic
-    let enemy  = generateUnit(`key`, {x: 844, y: 580, model: `SRB-001`}, false)
-        enemy.enemy = true
-        data.units[enemy.id] = enemy
+    let enemies = [
+      {x:   844, y:  580, model: `XVi-001`, scale: scf},
+      // {x:  -644, y: -380, model: `XVi-001`},
+      {x: -1144, y:  880, model: `XVi-001`, scale: scf},
+      // {x:   914, y: -280, model: `XVi-001`},
+      // {x:   444, y: -810, model: `XVi-001`},
+      // {x:  -144, y:-1141, model: `XVi-001`},
+    ]
+    enemies.forEach(enemy => {
+      let e = generateUnit(`key`, enemy, false)
+          e.enemy = true
+      data.units[e.id] = e
+    })
 
     return
+  }
+  
+  let generateProjectile = function( key, datum, fromPlayer = false ) {
+    let anim = models(datum.model)
+    let projectile = new Projectile(key, {
+      x : datum.x,
+      y : datum.y,
+      r : datum.r,
+      vr: datum.r,
+      w : anim.width * scf,
+      h : anim.height * scf,
+      anim      : anim,
+      collider  : collider,
+      fromPlayer: fromPlayer,
+      origin    : ``,
+    })
+    // Add force
+    projectile.addForce( datum.fm, datum.fr )
+    return projectile
   }
   
   let generateUnit = function( key, datum, isPlayer = false ) {
     let gen  = isPlayer ? Player   : Actor
     let m    = isPlayer ? `player` : `unit`
     let anim = models(datum.model)
+    
+    if (isPlayer) scf = settings.game.size_unit / anim.height
+    
     let unit = new gen(key, {
       t: m,
       x: datum.x,
       y: datum.y,
+      w: anim.width * scf,
+      h: anim.height * scf,
       anim    : anim,
       collider: collider,
       isPlayer: isPlayer,
     })
+    if (datum.r) unit.r = datum.r
     
     raiseEvent( canvas, events.engine.unit, unit )
     
@@ -251,11 +334,15 @@ sf.engine = (function() {
     let m   = data.hero.sector.name
     let n   = data.sectors[m].getNeighbours()
     
-    Object.entries(data.sectors).filter(([k,v],i) => (now - v.age) > sga).forEach(([k,v], i) => {
+    Object.entries(data.sectors).filter(([k,v],i) => (now - v.age) > gta).forEach(([k,v], i) => {
       if (Object.keys(v.contents).length <= 0 && m != v.name && n.indexOf(k) == -1) {
-        console.log(`[Garbage Collection]: deleting sector ${k}`)
+        dev.log(`[Garbage Collection]: deleting sector ${k}`)
         delete data.sectors[k]
       }
+    })
+    Object.entries(data.projectiles).filter(([k,v],i) => (now - v.age) > gpa).forEach(([k,v], i) => {
+      dev.log(`[Garbage Collection]: Deleting projectile ${k}`)
+      delete data.projectiles[k]
     })
   }
 

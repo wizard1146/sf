@@ -113,6 +113,9 @@ sf.canvas = (function() {
        Object.entries(data.units).forEach(([k,v],i) => {
          v.setColliderScale( isf )
        })
+       Object.entries(data.projectiles).forEach(([k,v],i) => {
+         v.setColliderScale( isf )
+       })
     }
     
     // render hero
@@ -123,7 +126,12 @@ sf.canvas = (function() {
       v.render( canvas, transform, hero, isf )
       if (dev) v.renderCollider( canvas, transform, hero, isf )
     })
-  }
+    // render projectiles
+    Object.entries(data.projectiles).forEach(([k,v],i) => {
+      v.render( canvas, transform, hero, isf )
+      if (dev) v.renderCollider( canvas, transform, hero, isf )
+    })
+  } 
   
   let loadModel = async function(e) {
     let datum = e.detail

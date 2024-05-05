@@ -106,29 +106,36 @@ sf.constructs = (function() {
     constructor(key, options) {
       super(key, options)
 
-      const w = options ? (options?.w ? options?.w : settings.game.size_unit) : settings.game.size_unit
+      let w = options ? (options?.w ? options?.w : settings.game.size_unit) : settings.game.size_unit
+      let h = options ? (options?.h ? options?.h : settings.game.size_unit) : settings.game.size_unit
       
-      let wf = 3
+      let wf = 2
       let hf = 2
+      
+      // shouldn't be guessing this!
       this.bounds = [
-        [-1 * w/wf, -1 * w/hf],
-        [ 1 * w/wf, -1 * w/hf],
-        [ 1 * w/wf,  1 * w/hf],
-        [-1 * w/wf,  1 * w/hf],
+        [-1 * w/wf, -1 * h/hf],
+        [ 1 * w/wf, -1 * h/hf],
+        [ 1 * w/wf,  1 * h/hf],
+        [-1 * w/wf,  1 * h/hf],
       ]
+      this.bounds = options?.anim?.collisionBounds.map(e => [e[0] * w/wf, e[1] * h/hf])
       this.collisionObject = options.collider.createPolygon(this.x, this.y, this.bounds)
     }
     setColliderScale( scale ) {
       this.colliderScale = scale
       this.collisionObject.scale_x = scale
       this.collisionObject.scale_y = scale
+      
+      // update bounds
+      //this.bounds = this.bounds.map(ea => [ea[0] / scale, ea[1] / scale])
     }
     renderCollider( canvas, transform, player, scaleFactor ) {
       let t = [
         { instruction: `translate`, args: [ transform.left, transform.top ] },
-        { instruction: `rotate`,    args: [ this.r ] },
       ]
       if (!this.isPlayer) t.push({ instruction: `translate`, args: [ (this.x - player.x)/scaleFactor, (-this.y - -player.y)/scaleFactor ] })
+      t.push({ instruction: `rotate`,    args: [ this.r ] })
       
       let ctx = canvas.getContext('2d')
       let bounds = this.bounds
@@ -177,6 +184,12 @@ sf.constructs = (function() {
           x: 0,
           y: 0,
         },
+        f: {
+          m: 0,
+          r: 0,
+          x: 0,
+          y: 0,
+        },
         vr: 0,
         anim: {
           model: settings.game.default_model,
@@ -200,6 +213,18 @@ sf.constructs = (function() {
       
       // Update Sector
       this.sector = this.getSector( settings.game.initial_x, settings.game.initial_y )
+    }
+    addForce(magnitude, heading) {
+      this.f.m = magnitude
+      this.f.r = heading
+      let resolved = this.resolveForce( magnitude, heading )
+      this.f.x = resolved.x
+      this.f.y = resolved.y
+    }
+    resolveForce(m, r) {
+      let x = Math.sin(r) * m
+      let y = Math.cos(r) * m
+      return {x: x, y: y}
     }
     getSector( x = this.x, y = this.y, ss = settings.game.size_sector ) {
       let k = function(input, sectorSize) { return Math.floor((input - sectorSize) / (2 * sectorSize)) + 1 }
@@ -233,6 +258,11 @@ sf.constructs = (function() {
       let rot      = settings.game.speed_rotation_limit
       let changed  = false
       let inverted = false
+      
+      // Apply any force
+      if (this.f.m > 0) {
+        this.v = this.f
+      }
       
       // Calculate thrust vectors
       let deltaRotation = this.v.r - this.r
@@ -333,21 +363,24 @@ sf.constructs = (function() {
       if (r.length) instructions.push( r )
       if (alter) this.anim.instructions = instructions
     }
-    render(canvas, transform, player, scaleFactor) {
+    render(canvas, transform, player, scaleFactor, upsize = true) {
       let m = libget( this.anim.model )
       let i = m.compose( this.anim.instructions )
-      let t = settings.game.size_unit
-      let f = t/m.height
+      let t = m.height // upsize ? settings.game.size_unit : 2
+      let f = settings.game.size_unit / (player?.anim.height ? player?.anim.height : m.height)
+      //console.log(this.k, f, player?.h)
+      let r = player ? player.r : this.r
       
       let mods = [
         { instruction: `translate`, args: [ transform.left, transform.top ] },
-        { instruction: `rotate`,    args: [ this.r ] },
+        // { instruction: `rotate`,    args: [ this.r ] },
       ]
       if (!this.isPlayer) {
         mods.push({ instruction: `translate`, args: [ (this.x - player.x)/scaleFactor, (-this.y - -player.y) / scaleFactor ] })
       }
+      mods.push({ instruction: `rotate`, args: [ this.r ] })
       
-      librender( canvas, mods, i, [ m.width/2 * f, m.height/2 * f ] )
+      librender( canvas, mods, i, [ m.width/2 * f , m.height/2 * f ] )
     }
   }
   
@@ -384,8 +417,9 @@ sf.constructs = (function() {
     /* WebGL constructs */
     Unit  : Unit,
     /* Engine constructs */
-    player: Player,
-    actor : Actor,
-    tile  : Tile,
+    player    : Player,
+    actor     : Actor,
+    tile      : Tile,
+    projectile: Projectile,
   }
 })()

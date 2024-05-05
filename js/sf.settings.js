@@ -53,7 +53,8 @@ sf.settings = (function() {
       settings_header_line_height: `3.4ch`,
     },
     engine: {
-      garbage_tile_age: 360000,
+      garbage_tile_age      : 6 * 60 * 1000,
+      garbage_projectile_age: 0.1 * 60 * 1000,
     },
     game: {
       // Settings
@@ -65,14 +66,6 @@ sf.settings = (function() {
       // Others 
       size_unit     : 38, // 300, // 38,
       default_model : `SRB-001`,
-      player_model  : `XVi-001`, // `SRB-001`,
-      player_models : [
-        {velocity:  85, model: `forward_02`},
-        {velocity:  40, model: `forward_01`},
-        {velocity:   0, model: ``},
-        {velocity: -40, model: `reverse_01`},
-        {velocity: -85, model: `reverse_02`},
-      ],
       speed_limiter : 21.1,
       speed_reverse : 0.83,
       speed_refactor: 1,
