@@ -83,7 +83,7 @@ sf.ux = (function() {
   }
   
   let renderTitle = function() {
-    let f = `center flexbox syne-mono text-bright text-accent text-right no-select cursor`
+    let f = `center flexbox barlow text-bright text-accent no-select cursor`
     let k = qset(`#${settings.application.id_mmenu_list}`)
         k.classList.value = f
     
