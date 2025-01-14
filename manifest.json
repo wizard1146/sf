@@ -21,5 +21,6 @@
   "theme_color": "#0D1835",
   "shortcuts": [
   ],
-  "description": "PWA for SF"
+  "description": "PWA for SF",
+  "orientation": "landscape-primary"
 }
