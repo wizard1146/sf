@@ -36,6 +36,7 @@ sf.css = (function() {
   let cssRules = [
     `
     /* Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@100..700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
     .mplus {
@@ -43,6 +44,14 @@ sf.css = (function() {
     }
     .syne-mono {
       font-family: "Syne Mono", monospace;
+    }
+    .barlow-thin {
+      font-family: "Barlow", serif;
+      font-weight: 100;
+    }
+    .barlow {
+      font-family: "Barlow", serif;
+      font-weight: 400;
     }
     `,
     `
@@ -188,13 +197,14 @@ sf.css = (function() {
       padding         : ${s_mmenu.padding};
       margin          : ${s_mmenu.margin};
       background      : ${s_mmenu.backing};
-      border-radius   : 9px;
+      border-radius   : 6px;
       position        : relative;
       overflow  : hidden;
-      transition: all 230ms;
+      transition: all 140ms;
     }
     .${s_app.cl_mmenu_elem} .value {
-      position: relative;
+      position  : relative;
+      transition: all 140ms;
     }
     .${s_app.cl_mmenu_elem} .backdrop {
       position : absolute;
@@ -210,6 +220,12 @@ sf.css = (function() {
     }
     .${s_app.cl_mmenu_elem}:hover .value {
       color   : rgba( 231, 184, 203, 0.78 );
+      color   : rgba(   1,   1,   1, 1.00 );
+      text-shadow:
+        1px -1px 0 rgba( 255, 255, 255, 0.03 ),
+        1px  1px 0 rgba( 255, 255, 255, 0.93 );
+      letter-spacing: 0.04rem;
+      padding-left  : 0.155rem;
     }
     .${s_app.cl_mmenu_elem}:hover .backdrop {
       backdrop-filter: blur(11px);
