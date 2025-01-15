@@ -66,7 +66,7 @@ sf.settings = (function() {
       // Others 
       size_unit     : 38, // 300, // 38,
       default_model : `SRB-001`,
-      speed_limiter : 21.1,
+      speed_limiter : 18.1, // 21.1,
       speed_reverse : 0.83,
       speed_refactor: 1,
       speed_rotation_limit: 3.1/360 * Math.PI * 2,
