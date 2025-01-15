@@ -34,35 +34,6 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 
   sf.preloader.init()
   
-  // window.addEventListener('gamepadconnected', connected)
 })
-
-/*
-let gp;
-connected = function(e) {
-  gp = e.gamepad.index
-  document.body.addEventListener(`sfc-tick`, gpt)
-}
-
-gpt = function() {
-  let pad = navigator.getGamepads()[gp]
-  
-  let lx, ly, rx, ry;
-  
-  lx = pad.axes[0]
-  ly = pad.axes[1]
-  rx = pad.axes[2]
-  ry = pad.axes[3]
-  
-  let dir = sf.input.dir()
-  if (dir) {
-    dir.update( lx*dir.er + dir.canvas.width/2, ly*dir.er + dir.canvas.height/2 )
-  }
-  let aim = sf.input.aim()
-  if (aim) {
-    //aim.update( lx*aim.er + aim.canvas.width/2, ly*aim.er + aim.canvas.height/2 )
-  }
-}
-*/
 
 </script>
