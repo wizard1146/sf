@@ -37,8 +37,9 @@ sf.preloader = (function() {
       'canvas',
       'engine',
       /* interfaces */
-      'ux',
       'input',
+      'gamepad',
+      'ux',
     ],
   }
   
