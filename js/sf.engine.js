@@ -123,7 +123,7 @@ sf.engine = (function() {
     let payload = e.detail
     if (payload.wh == 'dir') {
       let r = payload.len === 0 ? 0 : payload.r
-      data.hero.v = {
+      data.hero.f = {
         x:  payload.x / settings.game.speed_refactor,
         y:  payload.y / settings.game.speed_refactor,
         m:  payload.len,
