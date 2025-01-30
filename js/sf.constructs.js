@@ -256,12 +256,25 @@ sf.constructs = (function() {
       let slim     = settings.game.speed_limiter
       let rev      = settings.game.speed_reverse
       let rot      = settings.game.speed_rotation_limit
+      let drag     = 1 - settings.game.drag_factor
       let changed  = false
       let inverted = false
       
       // Apply any force
       if (this.f.m > 0) {
         this.v = this.f
+      } else {
+      // Degrade existing velocities
+        this.v.m *= drag
+        this.v.x *= drag
+        this.v.y *= drag
+        
+        if (this.v.m > 0 && this.v.m <=  0.1) this.v.m = 0
+        if (this.v.x > 0 && this.v.x <=  0.1) this.v.x = 0
+        if (this.v.y > 0 && this.v.y <=  0.1) this.v.y = 0
+        if (this.v.m < 0 && this.v.m >= -0.1) this.v.m = 0
+        if (this.v.x < 0 && this.v.x >= -0.1) this.v.x = 0
+        if (this.v.y < 0 && this.v.y >= -0.1) this.v.y = 0
       }
       
       // Calculate thrust vectors
@@ -326,7 +339,7 @@ sf.constructs = (function() {
         if (!inverted) {
           for (var i = 0; i < pm.length; i++) {
             let f = pm[i]
-            if (this.v.m >= f.velocity) {
+            if (this.f.m >= f.velocity) {
               instructions = instructions.concat( f.instructionKeys )
               break
             }
@@ -334,7 +347,7 @@ sf.constructs = (function() {
         } else {
           for (var i = pm.length - 1; i > -1; i--) {
             let f = pm[i]
-            if (this.v.m >= Math.abs(f.velocity)) {
+            if (this.f.m >= Math.abs(f.velocity)) {
               instructions = instructions.concat( f.instructionKeys )
               break
             }
