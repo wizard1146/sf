@@ -256,13 +256,34 @@ sf.constructs = (function() {
       let slim     = settings.game.speed_limiter
       let rev      = settings.game.speed_reverse
       let rot      = settings.game.speed_rotation_limit
+      let dxdy     = settings.game.speed_application
       let drag     = 1 - settings.game.drag_factor
       let changed  = false
       let inverted = false
       
       // Apply any force
       if (this.f.m > 0) {
-        this.v = this.f
+        // this.v = this.f
+        if (this.v.m < this.f.m) {
+          this.v.m += this.f.m
+          this.v.m  = Math.min( this.f.m, this.v.m )
+        }
+        if (this.f.x > 0 && this.v.x < this.f.x) {
+          this.v.x += (this.f.x * dxdy)
+          this.v.x  = Math.min( this.f.x, this.v.x )
+        } else if (this.f.x < 0 && this.v.x > this.f.x) {
+          this.v.x += (this.f.x * dxdy)
+          this.v.x  = Math.max( this.f.x, this.v.x )
+        }
+        if (this.f.y > 0 && this.v.y < this.f.y) {
+          this.v.y += (this.f.y * dxdy)
+          this.v.y  = Math.min( this.f.y, this.v.y )
+        } else if (this.f.y < 0 && this.v.y > this.f.y) {
+          console.log(this.v.y, this.f.y)
+          this.v.y += (this.f.y * dxdy)
+          this.v.y  = Math.max( this.f.y, this.v.y )
+        }
+        this.v.r = this.f.r
       } else {
       // Degrade existing velocities
         this.v.m *= drag
