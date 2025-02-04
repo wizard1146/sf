@@ -279,7 +279,6 @@ sf.constructs = (function() {
           this.v.y += (this.f.y * dxdy)
           this.v.y  = Math.min( this.f.y, this.v.y )
         } else if (this.f.y < 0 && this.v.y > this.f.y) {
-          console.log(this.v.y, this.f.y)
           this.v.y += (this.f.y * dxdy)
           this.v.y  = Math.max( this.f.y, this.v.y )
         }
