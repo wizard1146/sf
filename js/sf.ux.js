@@ -161,6 +161,13 @@ sf.ux = (function() {
     if (hudFPS) hudFPS.textContent = clock.fps().toFixed(1)
     if (hudSector) hudSector.textContent = (data.hero.sector.sx + ',' + data.hero.sector.sy) // + '-' + Object.keys(data.sectors).length
     if (hudRotary) hudRotary.style.transform = `translate( calc(${settings.input.js_size_max}/2 - ${settings.hud.rotary_dial_width}/2) , 0% ) rotate( ${data.hero.r}rad )`
+    
+    if (true && hudDev) {
+      hudDev.textContent = `
+        F: ${data.hero.f.m.toFixed(2)}, ${data.hero.f.x.toFixed(2)}, ${data.hero.f.y.toFixed(2)}
+        V: ${data.hero.v.m.toFixed(2)}, ${data.hero.v.x.toFixed(2)}, ${data.hero.v.y.toFixed(2)}
+      `
+    }
   }
   
   /*
