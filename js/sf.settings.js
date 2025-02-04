@@ -70,6 +70,7 @@ sf.settings = (function() {
       speed_reverse : 0.83,
       speed_refactor: 1,
       speed_rotation_limit: 3.1/360 * Math.PI * 2,
+      speed_application   : 0.03,
       drag_factor   : 0.005,
       
       size_sector   : 500,
